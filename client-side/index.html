@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function createTable() {
+            $.ajax({
+                url: '/create-table',
+                type: 'POST',
+                data: JSON.stringify({
+                    tableName: "games",
+                    width: 50,
+                    height: 50,
+                    x: 120,
+                    y: 130
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (res) => {
+                    console.log(Object.values(res[0]));
+                }
+            });
+        }
+
+        function createURL() {
+            $.ajax({
+                url: '/create-url',
+                type: 'POST',
+                data: JSON.stringify({
+                    text: "games",
+                    url: "http://games.com",
+                    tableID: 10
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (res) => {
+                    console.log(Object.values(res[0]));
+                }
+            });
+        }
+
+        function getTables() {
+            $.ajax({
+                url: '/retrieve',
+                type: 'GET',
+                success: (res) => {
+                    console.log(Object.values(res[0]));
+                }
+            });
+        }
+
+        function updateTable() {
+            $.ajax({
+                url: '/update-table',
+                type: 'POST',
+                data: JSON.stringify({
+                    id: 9,
+                    tableName: "fun",
+                    width: 20,
+                    height: 10,
+                    x: 0,
+                    y: 0
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (res) => {
+                    console.log(Object.values(res[0]));
+                }
+            });
+        }
+
+        function updateURL() {
+            $.ajax({
+                url: '/update-url',
+                type: 'POST',
+                data: JSON.stringify({
+                    linkID: 2,
+                    text: "toys",
+                    url: 'https://toys.com',
+                    tableID: 8
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (res) => {
+                    console.log(Object.values(res[0]));
+                }
+            });
+        }
+
+        function deleteTable() {
+            $.ajax({
+                url: '/delete-table',
+                type: 'POST',
+                data: JSON.stringify({
+                    id: 10
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (res) => {
+                    console.log(Object.values(res[0]));
+                }
+            });
+        }
+
+        function deleteURL() {
+            $.ajax({
+                url: '/delete-url',
+                type: 'POST',
+                data: JSON.stringify({
+                    linkID: 1
+                }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (res) => {
+                    console.log(Object.values(res[0]));
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<button onclick="createTable()">createTable</button>
+<button onclick="createURL()">createURL</button>
+<button onclick="getTables()">getTables</button>
+<button onclick="updateTable()">updateTable</button>
+<button onclick="updateURL()">updateURL</button>
+<button onclick="deleteTable()">deleteTable</button>
+<button onclick="deleteURL()">deleteLink</button>
+</body>
+</html>
