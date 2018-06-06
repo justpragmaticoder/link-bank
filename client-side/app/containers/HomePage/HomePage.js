@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import ReposList from 'components/ReposList';
 import Counter from './Counter';
+import axios from 'axios';
 import './style.scss';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -17,30 +18,36 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
    */
    constructor(props){
 	   super(props);
+	   this.state = {answer: []};
    }
   componentDidMount() {
     if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
     }
   }
-	
-	
+  sendToServer(){
+  axios.post('http://localhost:3001/update-table').then((response)=>{
+    this.setState({answer: response.data})
+}).catch(function (error) {
+    console.log(error);
+  });}
   render() {
-	 
-	//let bit = 0;
     const { loading, error, repos } = this.props;
     const reposListProps = {
       loading,
       error,
       repos,
     };
-	
-  
+	console.log(this.state.answer);
     return (
+	
 	<div>
-		
+
 		<h1>Hello World!</h1>
 		 <Counter />
+    <button onClick={this.sendToServer.bind(this)}>ToServer</button>
+    <ul>
+    </ul>
 	</div>
     );
   }
