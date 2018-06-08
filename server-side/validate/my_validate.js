@@ -29,7 +29,7 @@ module.exports = {
         }
         return msg;
     },
-    validateEmail: function(_email) {
+    isEmailValid: function(_email) {
         if (this.regArray.email.test(_email)) {
             return true
         }
@@ -38,7 +38,7 @@ module.exports = {
         }
     },
     
-    isNumber: function(value, min, max=Infinity) {
+    isNumberValid: function(value, min, max=Infinity) {
         if (Number.isInteger(value) && value>=min && value <=max){
             return true;
         }
@@ -46,7 +46,7 @@ module.exports = {
             return false;
         }
     },
-    validateTableParams: function(table){
+    isTableParamsValid: function(table){
         let mes=[];
         for (let params in table){
         // for (i=0; i < arguments.length; i+=2){
@@ -61,13 +61,13 @@ module.exports = {
                 break;
                 case 'width':
                 case 'height':
-                    if (!isNumber(table[params],0,2000)){
+                    if (!isNumberValid(table[params],0,2000)){
                         mes.push('width or height must be number between 0 and 2000 px');
                     }
                 break;
                 case 'x':
                 case 'y':
-                    if (!this.isNumber(table[params],0,2000)){
+                    if (!this.isNumberValid(table[params],0,2000)){
                         mes.push('x or y coords must be number between 0 and 2000 px'); 
                     }
                 break;
