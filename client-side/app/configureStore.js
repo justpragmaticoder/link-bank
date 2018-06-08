@@ -10,8 +10,8 @@ import createReducer from './reducers';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 
-const client = axios.create({ //all axios can be used, shown in axios documentation
-  baseURL:'http://localhost:3001',
+const client = axios.create({ // all axios can be used, shown in axios documentation
+  baseURL: 'http://localhost:3001',
   responseType: 'json'
 });
 
@@ -22,7 +22,7 @@ export default function configureStore(initialState = {}, history) {
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [
-	axiosMiddleware(client),
+    axiosMiddleware(client),
     sagaMiddleware,
     routerMiddleware(history),
   ];

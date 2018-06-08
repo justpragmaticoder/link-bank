@@ -1,12 +1,14 @@
 import { fromJS } from 'immutable';
-import axios from 'axios';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  tables: []
+});
 
 function tablesReducer(state = initialState, action) {
   switch (action.type) {
-    case 'SHOW_TABLES':
-      return state.set("tables", action.payload)
+    case 'TABLES_LOAD_SUCCESS':
+      console.log(state.get('tables'));
+      return state.set( 'tables', action.payload.data);
     default:
       return state;
   }

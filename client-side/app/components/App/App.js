@@ -10,8 +10,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
 
-import Tables from 'containers/Tables/Tables';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Tables from 'components/Tables/Tables';
+import NotFoundPage from 'components/NotFoundPage/Loadable';
 
 
 import './style.scss';
