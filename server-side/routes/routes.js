@@ -201,4 +201,18 @@ router.post('/delete-url/:id', passport.authenticate('jwt', {session: false}), j
     res.status(400).send(JSON.stringify({'status': 'error', 'data': 'link id is not valid'}));
 });
 
+router.get('/retrieve', (req, res) => {
+    getTablesData(res);
+});
+router.get('/links', (req, res) => {
+    knex.select().from('links').then((data) => {
+            res.send(data);
+        });
+});
+function getTablesData(res) {
+    knex.select().from('linkTables').then((data) => {
+            res.send(data);
+        });
+}
+
 module.exports = router;
