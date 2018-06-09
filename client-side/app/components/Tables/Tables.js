@@ -2,24 +2,24 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import loadTable from 'actions/index.js';
+import {loadTable, loadLinks} from 'actions/index.js';
 
 
 class Tables extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { answer: [] };
     // console.log(loadTables);
   }
   componentWillMount() {
-    this.props.onShowTables();
+    this.props.getTables();
+	this.props.getLinks();
   }
   rendTabs(props) {
     if (this.props.tables.tables.length != 0) {
       const numbers = props.tables.tables;
       const styleArr = {};
       numbers.forEach((item) => {
-         const width = item.width;
+        const width = item.width;
         const height = item.height;
 		const x = item.x;
 		const y = item.y;
@@ -64,9 +64,12 @@ export default connect(
     tables: state.get('tables').toJS(),
   }),
   (dispatch) => ({
-    onShowTables: () => {
+    getTables: () => {
       dispatch(loadTable());
-    }
+    },
+	getLinks: () => {
+	  dispatch(loadLinks());
+	}
   }
   ))(Tables);
 

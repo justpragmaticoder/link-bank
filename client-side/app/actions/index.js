@@ -8,3 +8,13 @@ export default function loadTables() {
     }
   };
 }
+export default function loadLinks() {
+  return {
+    type: 'LINKS_LOAD',
+    payload: {
+      request: {
+        url: '/links',
+      }
+    }
+  };
+}
