@@ -9,6 +9,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import globalReducer from 'components/App/reducer';
 
 import tablesReducer from 'components/Tables/reducer'
+import loginReducer from 'components/Login/reducer'
 
 /*
  * routeReducer
@@ -45,7 +46,8 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     global: globalReducer,
-	  tables: tablesReducer,
+    tables: tablesReducer,
+    login: loginReducer,
     ...injectedReducers,
   });
 }

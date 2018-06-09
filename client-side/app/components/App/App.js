@@ -12,6 +12,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Tables from 'components/Tables/Tables';
 import NotFoundPage from 'components/NotFoundPage/Loadable';
+import Login from 'components/Login/Login';
 
 
 import './style.scss';
@@ -21,6 +22,7 @@ const App = () => (
 
     <Switch>
       <Route exact path="/" component={Tables} />
+      <Route exact path="/login" component={Login} />
       <Route path="" component={NotFoundPage} />
     </Switch>
   </div>
