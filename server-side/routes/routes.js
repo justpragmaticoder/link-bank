@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const validate = require('./../validate/my_validate.js');
 
+
 /* JWT Passport authentication */
 const _ = require("lodash");
 const jwt = require('jsonwebtoken');
@@ -51,9 +52,9 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', (req, res) => {
-    // if (validate.validateAuthData(req, res)) {
-    //     return;
-    // }
+    if (!validate.validateAuthData(req, res)) {
+        return;
+    }
     if (req.body.login && req.body.password) {
         let login = req.body.login;
         let password = req.body.password;
@@ -77,6 +78,9 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
+    if (!validate.validateAuthData(req, res)) {
+        return;
+    }
     knex('users').where('login', req.body.login).then((tableEntry) => {
         if (tableEntry[0]) {
             res.status(409).send(JSON.stringify({'status': 'error', 'data': 'user exists'}));
@@ -106,7 +110,7 @@ router.post('/create-table', passport.authenticate('jwt', {session: false}), jso
 router.post('/create-url', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let data = req.body;
     if (validate.regArray['url'].test(data.url)) {
-        req.body.text = req.body.text || req.body.url;
+        data.text = data.text || data.url;
         knex('links').returning('id').insert(req.body).then((id) => {
             knex('links').select().where('id', id).then((data) => {
                 res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
@@ -120,8 +124,7 @@ router.post('/create-url', passport.authenticate('jwt', {session: false}), jsonP
 
 router.get('/tables/:userId', passport.authenticate('jwt', {session: false}), (req, res) => {
     let userId = req.params.userId;
-    console.log(userId);
-    if (validate.isNumberValid(+userId, 0)) {
+    if (validate.isNumberValid(Number(userId), 0)) {
         knex('linkTables').select().where('userID', userId).then((data) => {
             res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
         });
@@ -129,9 +132,10 @@ router.get('/tables/:userId', passport.authenticate('jwt', {session: false}), (r
     }
     res.status(400).send(JSON.stringify({'status': 'error', 'data': 'error userID'}));
 });
+
 router.get('/links/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let id = req.params.id;
-    if (validate.isNumberValid(+id, 0)) {
+    if (validate.isNumberValid(Number(id), 0)) {
         knex('links').select().where('tableId', id).then((data) => {
             res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
         });
@@ -142,7 +146,7 @@ router.get('/links/:id', passport.authenticate('jwt', {session: false}), jsonPar
 
 router.put('/update-table/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let tableID = req.params.id;
-    if (validate.isNumberValid(+tableID, 0)) {
+    if (validate.isNumberValid(Number(tableID), 0)) {
         let valParams = validate.isTableParamsValid(req.query);
         if (valParams.length > 0) {
             res.status(400).send(valParams);
@@ -160,7 +164,7 @@ router.put('/update-table/:id', passport.authenticate('jwt', {session: false}), 
 
 router.put('/update-url/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let urlId = req.params.id;
-    if (validate.isNumberValid(+urlId, 0)) {
+    if (validate.isNumberValid(Number(urlId), 0)) {
         let valParams = validate.isTableParamsValid(req.query);
         if (valParams.length > 0) {
             res.status(400).send(valParams);
