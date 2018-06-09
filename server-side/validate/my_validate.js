@@ -39,12 +39,8 @@ module.exports = {
     },
 
     isNumberValid: function (value, min, max = Infinity) {
-        if (Number.isInteger(value) && value >= min && value <= max) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return Number.isInteger(value) && value >= min && value <= max;
+
     },
     isTableParamsValid: function (table) {
         let mes = [];
@@ -89,4 +85,4 @@ module.exports = {
         }
         return true;
     }
-}
+};

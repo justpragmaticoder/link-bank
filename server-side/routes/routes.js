@@ -58,20 +58,18 @@ router.post('/login', (req, res) => {
         let login = req.body.login;
         let password = req.body.password;
         knex('users').select().where('login', login).then((tableEntry) => {
-            for (let i = 0; i < tableEntry.length; i++) {
-                let userEntry = tableEntry[i];
-                if (!userEntry) {
-                    res.status(401).json({message: "no such user found"});
-                    return;
-                }
-                if (userEntry.password === password) {
-                    /* from now on we'll identify the user by the id and the id is the
-                    only personalized value that goes into our token */
-                    let payload = {id: userEntry.id};
-                    let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                    res.json({message: "ok", token: token});
-                    return;
-                }
+            let userEntry = tableEntry[0];
+            if (!userEntry) {
+                res.status(401).json({message: "no such user found"});
+                return;
+            }
+            if (userEntry.password === password) {
+                /* from now on we'll identify the user by the id and the id is the
+                only personalized value that goes into our token */
+                let payload = {id: userEntry.id};
+                let token = jwt.sign(payload, jwtOptions.secretOrKey);
+                res.json({message: "ok", token: token});
+                return;
             }
             res.status(401).json({message: "passwords did not match"});
         });
@@ -79,9 +77,15 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    knex('users').returning('id').insert(req.body).then((id) => {
-        knex('users').select().where('id', id).then((data) => {
-            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
+    knex('users').where('login', req.body.login).then((tableEntry) => {
+        if (tableEntry[0]) {
+            res.status(409).send(JSON.stringify({'status': 'error', 'data': 'user exists'}));
+            return;
+        }
+        knex('users').returning('id').insert(req.body).then((id) => {
+            knex('users').select().where('id', id).then((data) => {
+                res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
+            });
         });
     });
 });
@@ -142,14 +146,13 @@ router.put('/update-table/:id', passport.authenticate('jwt', {session: false}), 
         let valParams = validate.isTableParamsValid(req.query);
         if (valParams.length > 0) {
             res.status(400).send(valParams);
+            return;
         }
-        else {
-            knex('linkTables').where('id', tableID).update(JSON.parse(req.query)).then(() => {
-                knex('linkTables').select().where('id', tableID).then((data) => {
-                    res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
-                });
+        knex('linkTables').where('id', tableID).update(JSON.parse(req.query)).then(() => {
+            knex('linkTables').select().where('id', tableID).then((data) => {
+                res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
             });
-        }
+        });
         return;
     }
     res.status(400).send(JSON.stringify({'status': 'error', 'text': 'url id is not valid'}));
