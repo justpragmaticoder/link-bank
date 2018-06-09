@@ -19,14 +19,19 @@ class Tables extends React.PureComponent {
       const numbers = props.tables.tables;
       const styleArr = {};
       numbers.forEach((item) => {
-        const width = item.width;
+         const width = item.width;
         const height = item.height;
+		const x = item.x;
+		const y = item.y;
         const divStyle = {
           color: 'red',
           border: '1px solid black',
           width: width + 'px',
           height: height + 'px',
-        };
+		  position: 'absolute';
+		  top: x + ' px';
+		  left: y + ' px';
+		}
         styleArr[item.id] = divStyle;
       });
       console.log(styleArr);
