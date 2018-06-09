@@ -2,7 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import {loadTable, loadLinks} from 'actions/index.js';
+import {loadTable(), loadLinks()} from 'actions/index.js';
 
 
 class Tables extends React.PureComponent {
@@ -28,9 +28,9 @@ class Tables extends React.PureComponent {
           border: '1px solid black',
           width: width + 'px',
           height: height + 'px',
-		  position: 'absolute';
-		  top: x + ' px';
-		  left: y + ' px';
+		  position: 'absolute',
+		  top: x + ' px',
+		  left: y + ' px',
 		}
         styleArr[item.id] = divStyle;
       });

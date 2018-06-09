@@ -1,4 +1,4 @@
-export default function loadTables() {
+export function loadTables() {
   return {
     type: 'TABLES_LOAD',
     payload: {
@@ -8,7 +8,7 @@ export default function loadTables() {
     }
   };
 }
-export default function loadLinks() {
+export function loadLinks() {
   return {
     type: 'LINKS_LOAD',
     payload: {
