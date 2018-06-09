@@ -179,18 +179,26 @@ router.put('/update-url/:id', passport.authenticate('jwt', {session: false}), js
 });
 
 router.delete('/delete-table/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
-    let tableID = req.body.id;
-    knex('linkTables').where('id', tableID).del().then(() => {
-        knex('links').where('tableID', tableID).del().then();
-        res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
-    });
+    let tableID = req.params.id;
+    if (validate.isNumberValid(Number(tableID), 0)) {
+        knex('linkTables').where('id', tableID).del().then(() => {
+            knex('links').where('tableID', tableID).del().then();
+            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
+        });
+        return;
+    }
+    res.status(400).send(JSON.stringify({'status': 'error', 'data': 'table id is not valid'}));
 });
 
 router.post('/delete-url/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
-    let linkID = req.body.linkID;
-    knex('links').where('linkID', linkID).del().then(() => {
-        res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
-    });
+    let linkID = req.params.id;
+    if (validate.isNumberValid(Number(linkID), 0)) {
+        knex('links').where('linkID', linkID).del().then(() => {
+            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
+        });
+        return;
+    }
+    res.status(400).send(JSON.stringify({'status': 'error', 'data': 'link id is not valid'}));
 });
 
 router.get('/retrieve', (req, res) => {
