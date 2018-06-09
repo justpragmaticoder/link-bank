@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 08 2018 г., 13:58
+-- Время создания: Июн 09 2018 г., 11:48
 -- Версия сервера: 5.6.38
 -- Версия PHP: 5.5.38
 
@@ -84,6 +84,15 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `login`, `password`) VALUES
+(1, 'Vasya', '123456'),
+(8, 'Ivan', '654321'),
+(9, 'Vasya', '123');
+
+--
 -- Индексы сохранённых таблиц
 --
 
@@ -119,13 +128,13 @@ ALTER TABLE `links`
 -- AUTO_INCREMENT для таблицы `linkTables`
 --
 ALTER TABLE `linkTables`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
