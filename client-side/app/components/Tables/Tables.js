@@ -2,7 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import {loadTable(), loadLinks()} from 'actions/index.js';
+import {loadTables, loadLinks} from 'actions/index.js';
 
 
 class Tables extends React.PureComponent {
@@ -12,7 +12,7 @@ class Tables extends React.PureComponent {
   }
   componentWillMount() {
     this.props.getTables();
-	this.props.getLinks();
+	  //this.props.getLinks();
   }
   rendTabs(props) {
     if (this.props.tables.tables.length != 0) {
@@ -28,18 +28,17 @@ class Tables extends React.PureComponent {
           border: '1px solid black',
           width: width + 'px',
           height: height + 'px',
-		  position: 'absolute',
-		  top: x + ' px',
-		  left: y + ' px',
+		      position: 'absolute',
+		      top: x + ' px',
+		      left: y + ' px',
 		}
         styleArr[item.id] = divStyle;
       });
-      console.log(styleArr);
+     // console.log(styleArr);
       const listItems = numbers.map((number) =>
 
         (<li key={number.id}>
           <div style={styleArr[number.id]}>
-
             <p>{number.tableName}</p>
           </div>
          </li>)
@@ -65,7 +64,7 @@ export default connect(
   }),
   (dispatch) => ({
     getTables: () => {
-      dispatch(loadTable());
+      dispatch(loadTables());
     },
 	getLinks: () => {
 	  dispatch(loadLinks());

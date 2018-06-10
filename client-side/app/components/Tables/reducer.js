@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
-  tables: []
+  tables: [],
+  links:[]
 });
 
 function tablesReducer(state = initialState, action) {
@@ -9,6 +10,9 @@ function tablesReducer(state = initialState, action) {
     case 'TABLES_LOAD_SUCCESS':
       console.log(state.get('tables'));
       return state.set( 'tables', action.payload.data);
+    case 'LINKS_LOAD_SUCCESS':
+      console.log(state.get('tables'));
+      return state.set( 'links', action.payload.data);
     default:
       return state;
   }

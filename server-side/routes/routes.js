@@ -210,7 +210,8 @@ router.get('/links', (req, res) => {
         });
 });
 function getTablesData(res) {
-    knex.select().from('linkTables').then((data) => {
+   knex.select().from('linkTables').leftJoin('links', 'links.tableID', 'linkTables.id')
+        .then((data) => {
             res.send(data);
         });
 }
