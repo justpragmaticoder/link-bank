@@ -8,11 +8,8 @@ import {loadTables, loadLinks} from 'actions/index.js';
 class Tables extends React.PureComponent {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
     this.state = { answer: [] };
     console.log(this.state);
-=======
->>>>>>> eaa4268e230a81101740e9dc9edd973157c8190e
     // console.log(loadTables);
   }
   componentWillMount() {
@@ -33,15 +30,9 @@ class Tables extends React.PureComponent {
           border: '1px solid black',
           width: width + 'px',
           height: height + 'px',
-<<<<<<< HEAD
-		  position: 'absolute',
-		  top: x + ' px',
-		  left: y + ' px'
-=======
 		      position: 'absolute',
 		      top: x + ' px',
 		      left: y + ' px',
->>>>>>> eaa4268e230a81101740e9dc9edd973157c8190e
 		}
         styleArr[item.id] = divStyle;
       });
