@@ -9,6 +9,7 @@ class Tables extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { answer: [] };
+    console.log(this.state);
     // console.log(loadTables);
   }
   componentWillMount() {
@@ -28,9 +29,9 @@ class Tables extends React.PureComponent {
           border: '1px solid black',
           width: width + 'px',
           height: height + 'px',
-		  position: 'absolute';
-		  top: x + ' px';
-		  left: y + ' px';
+		  position: 'absolute',
+		  top: x + ' px',
+		  left: y + ' px'
 		}
         styleArr[item.id] = divStyle;
       });

@@ -10,7 +10,7 @@ import globalReducer from 'components/App/reducer';
 
 import tablesReducer from 'components/Tables/reducer'
 import loginReducer from 'components/Login/reducer'
-
+import registerReducer from 'components/Register/reducer'
 /*
  * routeReducer
  *
@@ -48,6 +48,7 @@ export default function createReducer(injectedReducers) {
     global: globalReducer,
     tables: tablesReducer,
     login: loginReducer,
+    register: registerReducer,
     ...injectedReducers,
   });
 }

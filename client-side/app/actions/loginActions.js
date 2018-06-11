@@ -1,13 +1,23 @@
-export default function loadForms(_data) {
+export function loadLoginForm(_data) {
     return {
-      type: 'FORMS_LOAD',
+      type: 'LOGIN_FORMS_LOAD',
       payload: {
         request: {
           url: '/login',
-          method: 'post',
-          data: _data
+          method: 'POST',
+          data: {
+              login: "vasya",
+              password: "12345"
+          }
         }
       }
     };
   }
+  export function some(_data) {
+    return {
+      type: 'SOMETHING2222',
+      payload: _data
+      }
+    };
+  
   
