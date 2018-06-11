@@ -46,7 +46,7 @@ class Login extends React.Component {
       handleClick = (e)=>{
         const loginField = document.querySelectorAll('#loginField')[0].value;
         const passwordField = document.querySelectorAll('#passField')[0].value;
-        console.log(this.checkField(loginField,'login'));
+        // console.log(this.checkField(loginField,'login'));
         let checkLogin = this.checkField(loginField, 'login');
         // if (checkLogin.status == 'ok' && checkPassword.status == 'ok'){
         //     this.props.history.push('/');
@@ -55,14 +55,14 @@ class Login extends React.Component {
             
         // }
         // console.log(loginField);
-    //   this.props.onLoginFormLoad({login:loginField, password: passwordField});
+      this.props.onLoginFormLoad({login:loginField, password: passwordField});
     //   this.props.onLoginFormLoad({login:loginField, password: passwordField});
 
-        this.setState({'redux': "huinya"});
-        console.log(this.state['redux']);
         // this.history.push('/'+thi);
+        console.log(`fsdf`+this.props.loginForm.userId.id);
       }
       render() {
+        //   console.log(this.props.loginForm);
         return (
             
           <Form className="login-form">
