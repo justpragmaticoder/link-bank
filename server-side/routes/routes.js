@@ -42,18 +42,20 @@ passport.use(strategy);
 /* Providing static files */
 router.use(express.static(path.join(path.join(__dirname, '/../../client-side'))));
 
-router.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '/../../client-side', 'index.html'));
-});
+// router.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, '/../../client-side', 'index.html'));
+// });
 
-router.get('/login', function (req, res) {
-    res.sendFile(path.join(__dirname, '/../../client-side', 'login.html'));
-});
+// router.get('/login', function (req, res) {
+//     res.sendFile(path.join(__dirname, '/../../client-side', 'login.html'));
+// });
 
 router.post('/login', (req, res) => {
     // if (validate.validateAuthData(req, res)) {
     //     return;
     // }
+    console.log('hernya!!!');
+    console.log(req.body);
     if (req.body.login && req.body.password) {
         let login = req.body.login;
         let password = req.body.password;
@@ -68,7 +70,7 @@ router.post('/login', (req, res) => {
                 only personalized value that goes into our token */
                 let payload = {id: userEntry.id};
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                res.json({message: "ok", token: token});
+                res.json({message: "ok", token: token,...payload});
                 return;
             }
             res.status(401).json({message: "passwords did not match"});
