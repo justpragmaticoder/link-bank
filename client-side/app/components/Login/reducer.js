@@ -3,8 +3,12 @@ import { fromJS } from 'immutable';
 const initialState = fromJS({
 //   forms: []
     data: {
+        id: "",
         login: "",
         password: ""
+    },
+    chtoto:{
+        qq: 'ffffff'
     }
 });
 
@@ -12,9 +16,10 @@ function loginReducer(state = initialState, action) {
   switch (action.type) {
     
     case 'LOGIN_FORMS_LOAD_SUCCESS':
-    console.log(action.payload.data);
-    // this.props.history.push('/tables/'+action.payload.data.id);
-      return state.set('data', action.payload.data);
+    // console.log(action.payload.data.id);
+    // data.id = action.payload.data.id
+    console.log(state[0]);
+      return state.set('userId', action.payload.data);
     case 'LOGIN_FORMS_LOAD_FAILURE':
       console.log(action.payload.data);
         return state.set('data', action.payload);

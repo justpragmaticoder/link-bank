@@ -13,7 +13,7 @@ export function loadLoginForm(_data) {
       }
     };
   }
-  export function load_tables(_data) {
+  export function loadTablesAfterLogin(_data) {
     return {
       type: 'LOAD_TABLES',
       payload: {

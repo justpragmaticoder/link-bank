@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return,no-undef */
 import React from 'react';
 import { connect } from 'react-redux';
-import {loadLoginForm, load_tables} from 'actions/loginActions.js';
+import {loadLoginForm, loadTablesAfterLogin} from 'actions/loginActions.js';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 
@@ -16,7 +16,7 @@ const regArray= {
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
+        // console.log(this.props);
       }
       
       checkField = (data, text) => {
@@ -55,15 +55,14 @@ class Login extends React.Component {
             
         // }
         // console.log(loginField);
-      this.props.onLoginFormLoad({login:loginField, password: passwordField});
-    //   console.log(x); 
-    //   this.props.redirectToTables();
-    //    console.log(getState());
-    //    this.props.history.push(`/tables/{$`)
+    //   this.props.onLoginFormLoad({login:loginField, password: passwordField});
+    //   this.props.onLoginFormLoad({login:loginField, password: passwordField});
+
+        this.setState({'redux': "huinya"});
+        console.log(this.state['redux']);
+        // this.history.push('/'+thi);
       }
       render() {
-        // console.log(this.state);
-        console.log(state.get('login').toJS())
         return (
             
           <Form className="login-form">
@@ -95,7 +94,7 @@ class Login extends React.Component {
             dispatch(loadLoginForm(data));
           },
           redirectToTables: (data)=>{
-              dispatch(load_tables(data));
+              dispatch(loadTablesAfterLogin(data));
           },
 
         }
