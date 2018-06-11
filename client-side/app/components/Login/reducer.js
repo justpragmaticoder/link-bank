@@ -10,10 +10,15 @@ const initialState = fromJS({
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {
+    
     case 'LOGIN_FORMS_LOAD_SUCCESS':
     console.log(action.payload.data);
+    // this.props.history.push('/tables/'+action.payload.data.id);
       return state.set('data', action.payload.data);
-    case 'SOMETHING2222':
+    case 'LOGIN_FORMS_LOAD_FAILURE':
+      console.log(action.payload.data);
+        return state.set('data', action.payload);
+    case 'LOAD_TABLES_SUCCESS':
     console.log(2);
         return state.set('chtoto', action.payload);
     default:

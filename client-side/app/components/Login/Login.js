@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return,no-undef */
 import React from 'react';
 import { connect } from 'react-redux';
-import {loadLoginForm, some} from 'actions/loginActions.js';
+import {loadLoginForm, load_tables} from 'actions/loginActions.js';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 
@@ -45,7 +45,7 @@ class Login extends React.Component {
       }
       handleClick = (e)=>{
         const loginField = document.querySelectorAll('#loginField')[0].value;
-        const passwordField = document.querySelectorAll('.passField')[0].value;
+        const passwordField = document.querySelectorAll('#passField')[0].value;
         console.log(this.checkField(loginField,'login'));
         let checkLogin = this.checkField(loginField, 'login');
         // if (checkLogin.status == 'ok' && checkPassword.status == 'ok'){
@@ -55,21 +55,24 @@ class Login extends React.Component {
             
         // }
         // console.log(loginField);
-       this.props.onLoginFormLoad("hello");
-
+      this.props.onLoginFormLoad({login:loginField, password: passwordField});
+    //   console.log(x); 
+    //   this.props.redirectToTables();
+    //    console.log(getState());
+    //    this.props.history.push(`/tables/{$`)
       }
       render() {
         // console.log(this.state);
-
+        console.log(state.get('login').toJS())
         return (
             
           <Form className="login-form">
             <p>Login form</p>
             <FormItem>
-                <Input id="loginField" className="loginField" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                <Input id="loginField" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
             </FormItem>
             <FormItem>
-                <Input className="passField" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                <Input id="passField" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
             </FormItem>
             <FormItem>
                 <Checkbox>Remember me</Checkbox>
@@ -91,8 +94,8 @@ class Login extends React.Component {
           onLoginFormLoad: (data) => {
             dispatch(loadLoginForm(data));
           },
-          hernya: (data)=>{
-              dispatch(some(data));
+          redirectToTables: (data)=>{
+              dispatch(load_tables(data));
           },
 
         }

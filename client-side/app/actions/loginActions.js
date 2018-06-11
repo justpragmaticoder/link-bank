@@ -6,18 +6,21 @@ export function loadLoginForm(_data) {
           url: '/login',
           method: 'POST',
           data: {
-              login: "vasya",
-              password: "12345"
+              login: _data.login,
+              password: _data.password
           }
         }
       }
     };
   }
-  export function some(_data) {
+  export function load_tables(_data) {
     return {
-      type: 'SOMETHING2222',
-      payload: _data
+      type: 'LOAD_TABLES',
+      payload: {
+        request: {
+          url:`/tables/{$_data.id}`,
+          method: 'get'
+        }
       }
     };
-  
-  
+  }
