@@ -2,14 +2,12 @@ import { fromJS } from 'immutable';
 
 const initialState = fromJS({
 //   forms: []
-    data: {
-        id: "",
-        login: "",
-        password: ""
+    userId: {
+        message: "",
+        token: "",
+        id: ""
     },
-    chtoto:{
-        qq: 'ffffff'
-    }
+    
 });
 
 function loginReducer(state = initialState, action) {
@@ -18,7 +16,7 @@ function loginReducer(state = initialState, action) {
     case 'LOGIN_FORMS_LOAD_SUCCESS':
     // console.log(action.payload.data.id);
     // data.id = action.payload.data.id
-    console.log(state[0]);
+  
       return state.set('userId', action.payload.data);
     case 'LOGIN_FORMS_LOAD_FAILURE':
       console.log(action.payload.data);

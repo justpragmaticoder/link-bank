@@ -55,14 +55,21 @@ class Login extends React.Component {
             
         // }
         // console.log(loginField);
-    //   this.props.onLoginFormLoad({login:loginField, password: passwordField});
+       this.props.onLoginFormLoad({login:loginField, password: passwordField});
     //   this.props.onLoginFormLoad({login:loginField, password: passwordField});
 
-        this.setState({'redux': "huinya"});
-        console.log(this.state['redux']);
+        //this.setState({'redux': "huinya"});
+        //console.log(this.state['redux']);
         // this.history.push('/'+thi);
       }
+	  checkStatus(){
+		  if(this.props.loginForm.userId.token.length > 5){
+			  this.props.history.push('/');
+		  }
+	  }
       render() {
+		  console.log(this.props)
+		  this.checkStatus();
         return (
             
           <Form className="login-form">
@@ -80,6 +87,7 @@ class Login extends React.Component {
               </Button>
               Or <a href="/register">register now!</a>
             </FormItem>
+			
           </Form>
         );
       }
