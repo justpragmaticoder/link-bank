@@ -8,7 +8,7 @@ const initialState = fromJS({
 function tablesReducer(state = initialState, action) {
   switch (action.type) {
     case 'TABLES_LOAD_SUCCESS':
-      console.log(state.get('tables'));
+      console.log(action.payload.data);
       return state.set( 'tables', action.payload.data);
     case 'LINKS_LOAD_SUCCESS':
       console.log(state.get('tables'));

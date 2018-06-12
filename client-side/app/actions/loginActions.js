@@ -5,9 +5,11 @@ export default function loadForms(_data) {
         request: {
           url: '/login',
           method: 'post',
-          data: _data
+          data: {
+            login: _data.login,
+            password: _data.password
+          }
         }
       }
     };
   }
-  
