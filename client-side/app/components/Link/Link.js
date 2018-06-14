@@ -1,5 +1,5 @@
 import React from 'react';
-const Link = ({link, text}) => {
-  return <a href={link}>{text}</a>
+const LinkList = (arrLinks) => {
+ /* arrLinks.map( (item) =>  {<a href={item.url}>{item.text}</a>})*/
 }
-export default Link;
+export default LinkList;

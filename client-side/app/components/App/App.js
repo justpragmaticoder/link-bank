@@ -18,7 +18,7 @@ import Login from 'components/Login/Login';
 import './style.scss';
 
 const App = () => (
-  <div className="app-wrapper">
+  <div /*className="app-wrapper"*/>
 
     <Switch>
       <Route exact path="/" component={Tables} />
