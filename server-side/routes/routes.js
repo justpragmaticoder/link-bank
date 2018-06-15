@@ -217,18 +217,23 @@ router.put('/update-url/:id', passport.authenticate('jwt', {session: false}), js
     }
 });
 
-router.delete('/delete-table/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
+router.delete('/delete-table/:id', jsonParser, (req, res) => {
     let tableID = req.params.id;
-    if (validate.isNumberValid(Number(tableID), 0)) {
-        knex('linkTables').where('id', tableID).del().then(() => {
-            knex('links').where('tableID', tableID).del().then();
-            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
+	if (validate.isNumberValid(Number(tableID), 0)) {
+	knex('linkTables').where('id', tableID).update({removed: 1}).then(() => {
+            knex('links').where('tableID', tableID).update({removed: 1}).then((data)=>{
+            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}))}
+			);
         });
-        return;
+	return;
     }
-    res.status(400).send(JSON.stringify({'status': 'error', 'data': 'table id is not valid'}));
+	res.status(400).send(JSON.stringify({'status': 'error', 'data': 'table id is not valid'}));
+    /*
+        
+        
+    */
 });
-
+/*
 router.post('/delete-url/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let linkID = req.params.id;
     if (validate.isNumberValid(Number(linkID), 0)) {
@@ -239,7 +244,17 @@ router.post('/delete-url/:id', passport.authenticate('jwt', {session: false}), j
     }
     res.status(400).send(JSON.stringify({'status': 'error', 'data': 'link id is not valid'}));
 });
-
+*/
+router.post('/delete-url/:id',/* passport.authenticate('jwt', {session: false}),*/ jsonParser, (req, res) => {
+    let linkID = req.params.id;
+	if (validate.isNumberValid(Number(linkID), 0)) {
+	knex('links').where('linkID', linkID).update({removed: 1}).then((data) => {
+            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
+        });
+       return;
+    }
+    res.status(400).send(JSON.stringify({'status': 'error', 'data': 'link id is not valid'}));
+});
 router.get('/retrieve', (req, res) => {
     getTablesData(res);
 });

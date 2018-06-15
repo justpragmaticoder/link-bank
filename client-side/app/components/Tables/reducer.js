@@ -2,7 +2,8 @@ import { fromJS } from 'immutable';
 
 const initialState = fromJS({
   tables: [],
-  links:[]
+  links:[],
+  update: false,
 });
 
 function tablesReducer(state = initialState, action) {

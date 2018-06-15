@@ -18,7 +18,29 @@ export function loadLinks() {
     }
   };
 }
-export function resizeTable(height, width, pos, id) {
+export function deleteLink(id) {
+  return {
+    type: 'LINK_DELETE',
+    payload: {
+      request: {
+        url: '/delete-url/' + id,
+        method: 'POST',
+      }
+    }
+  };
+}
+export function deleteTable(id) {
+  return {
+    type: 'TABLE_DELETE',
+    payload: {
+      request: {
+        url: '/delete-table/' + id,
+        method: 'DELETE',
+      }
+    }
+  };
+}
+export function resizeTable(height, width, id) {
 
     return {
     type: 'RESIZE_TABLE',
@@ -33,13 +55,10 @@ export function resizeTable(height, width, pos, id) {
           width : width,
         }
       },
-     height: height,
-      width: width,
-      pos : pos
     }
   };
 }
-export function positionTable(x, y, pos, id) {
+export function positionTable(x, y, id) {
   return {
     type: 'POSITION_TABLE',
     payload: {
