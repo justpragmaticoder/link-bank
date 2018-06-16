@@ -9,11 +9,36 @@ import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 
 const client = axios.create({ // all axios can be used, shown in axios documentation
   baseURL: 'http://localhost:3001',
   responseType: 'json'
 });
+const axiosMiddlewareOptions = {
+  interceptors: {
+    request: [
+      ({getState, dispatch, getSourceAction}, config) => {
+
+      console.log(localStorage.getItem('token'));
+       // let store = state.get('userId').toJS();
+        if (localStorage.getItem('token')!==undefined) {
+          config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+        }
+
+        return config
+      }
+    ],
+    /*response: [
+      ({ getState, dispatch }, response) => {
+      ...
+
+        return response
+      }
+    ]*/
+  }
+}
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -22,10 +47,16 @@ export default function configureStore(initialState = {}, history) {
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [
-    axiosMiddleware(client),
+    axiosMiddleware(client, axiosMiddlewareOptions),
     sagaMiddleware,
     routerMiddleware(history),
   ];
+	const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, createReducer)
 
   const enhancers = [
     applyMiddleware(...middlewares),
@@ -47,10 +78,11 @@ export default function configureStore(initialState = {}, history) {
 
   const store = createStore(
     createReducer(),
+	  //persistedReducer,
     fromJS(initialState),
     composeEnhancers(...enhancers)
   );
-
+  let persistor = persistStore(store);
   // Extensions
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
@@ -64,5 +96,5 @@ export default function configureStore(initialState = {}, history) {
     });
   }
 
-  return store;
+  return {store, persistor};
 }

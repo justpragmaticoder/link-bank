@@ -1,20 +1,34 @@
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
-  forms: []
+//   forms: []
+    userId: {
+        message: "",
+        token: "",
+        id: ""
+    },
+
 });
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {
-    case 'FORMS_LOAD_SUCCESS':
-    console.log('----');
-      console.log(state.get('login'));
-      console.log(action);
-      console.log('----');
-      return state.set( 'login', action.payload.data);
-    case 'FORMS_LOAD_FAILS':
-    console.log(action.payload);
-        return state.set('login', action.payload.data);
+    case 'LOGIN_FORMS_LOAD':
+      console.log(action.payload.data);
+        return state.set('data', action.payload.data);
+    case 'LOGIN_FORMS_LOAD_SUCCESS':
+    // console.log(action.payload.data.id);
+    // data.id = action.payload.data.id
+      localStorage.setItem("userId", action.payload.data.id);
+      localStorage.setItem("token", action.payload.data.token);
+      console.log(localStorage.getItem('userId'));
+      console.log(localStorage.getItem('token'));
+      return state.set('userId', action.payload.data);
+    case 'LOGIN_FORMS_LOAD_FAILURE':
+      console.log(action.payload.data);
+        return state.set('data', action.payload.data);
+    case 'LOAD_TABLES_SUCCESS':
+    console.log(2);
+        return state.set('auth-data', action.payload);
     default:
       return state;
   }

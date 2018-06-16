@@ -1,12 +1,18 @@
+export function update() {
+  return {
+    type: 'UPDATE_TABLES',
+    payload: true,
+  }
+}
 export function loadTables() {
   return {
     type: 'TABLES_LOAD',
     payload: {
       request: {
-        url: '/retrieve',
+        url: '/tables/' + localStorage.getItem('userId'),
       }
     }
-  };
+  }
 }
 export function loadLinks() {
   return {
@@ -40,9 +46,9 @@ export function deleteTable(id) {
     }
   };
 }
-export function resizeTable(height, width, id) {
+export function resizeTable(height, width, pos, id) {
 
-    return {
+  return {
     type: 'RESIZE_TABLE',
     payload: {
       request: {
@@ -55,6 +61,9 @@ export function resizeTable(height, width, id) {
           width : width,
         }
       },
+      height: height,
+      width: width,
+      pos: pos,
     }
   };
 }

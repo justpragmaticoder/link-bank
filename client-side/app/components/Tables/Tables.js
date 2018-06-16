@@ -1,12 +1,12 @@
 /* eslint-disable consistent-return,no-undef */
 import { connect } from 'react-redux';
 import LinkList from 'components/Link/Link';
-import {loadTables, loadLinks, resizeTable, positionTable, deleteLink, deleteTable} from 'actions/index.js';
+import {loadTables, loadLinks, resizeTable, positionTable, deleteLink, deleteTable, update} from 'actions/index.js';
 //import { Container, Draggable } from "react-smooth-dnd";
 import Rnd from 'react-rnd';
 import {bindActionCreators} from 'redux';
 import Draggable, {DraggableCore} from 'react-draggable';
-import { applyDrag, generateItems } from "./utils";
+//import { applyDrag, generateItems } from "./utils";
 import React from 'react';
 import './style.scss';
 
@@ -15,22 +15,41 @@ class Tables extends React.PureComponent {
   constructor(props) {
     super(props);
     this.delElem = this.delElem.bind(this);
+    this.state = {tables: this.props.tables.tables
+    }
   }
 
   componentWillMount() {
+    let id = localStorage.getItem('userId');
+    console.log(id);
     this.props.getTables();
     if (this.props.tables.tables.length !== 0) {
       this.setState({windWidth: window.innerWidth});
 
     }
   }
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.tables.tables !== prevProps.tables.tables) {
 
+    }
+  }
+ /* componentWillUpdate(){
+    if(this.props.tables.update === true){
+      this.props.getTables();
+    }
+  }*/
   resizeTable(data){
     let id = data.children[1].getAttribute('id');
-    this.props.resizeTables(data.offsetHeight, data.offsetWidth, id)
+    let pos = data.children[1].getAttribute('data-pos');
+    console.log(data);
+    this.props.resizeTables(data.offsetHeight, data.offsetWidth, pos, id);
+    this.setState({position: ''})
   }
   DraggableEventHandler = (data) => {
+   // console.log(data);
     let id = data.node.children[0].getAttribute('id');
+    //console.log(id);
     let i = data.node.children[0].getBoundingClientRect();
     this.props.positionTable(i.left, i.top, id);
   };
@@ -42,33 +61,47 @@ delElem(id){
   }
 
 }
+
 arrLink(number){
       let arr = this.props.tables.links.filter((item) => {
         return item.tableID === number
       });
 
-  return <ul>{arr.map(item => <li ><a href={item.url}>{item.text}</a>
+  return <ul>{arr.map((item, i) => <li ><a key={i} href={item.url}>{item.text}</a>
     <button data-elem="link" data-del={item.linkID} onClick={this.delElem}>x</button></li>)}</ul>
 }
   rendTabs(props) {
     if (this.props.tables.tables.length !== 0) {
       const numbers = props.tables.tables;
-      const listItems = numbers.map((number, key) =>
-        ( <Rnd
-          style={{border: '2px solid black', position: 'absolute', top: number.y, left: number.x}}
+      const listItems = numbers.map((number, i) =>
+        ( <li /*style={{width: number.width, height: number.height,}}*/ key={number.id}>
+          <Rnd
+          key={i}
+          //ref={c => { this.rnd[number.id] = c; }}
+          style={{ width: number.width, height: number.height, border: '2px solid black', /*position: 'absolute',*/ top: number.y, left: number.x}}
+         // default={{ x: number.x, y: number.y, width: number.width, height: number.height}}
           size={{ width: number.width, height: number.height }}
           //position={{ x: number.x, y: number.y }}
           onDragStop={(e, d) => {
-            this.DraggableEventHandler(d) }}
-          onResize={(e, direction, ref, delta, position) => {
-            this.resizeTable(ref, position);
+            this.DraggableEventHandler(d);
           }}
+          onResize={(e, direction, ref, delta, position) => {
+            this.resizeTable(ref);
+            this.setState({position: position})
+            //this.setState({position: direction})
+          }}
+          onResizeStop={(e, direction, ref, delta, position)=>{
+            this.resizeTable(ref);
+           // this.DraggableEventHandler(ref);
+           //this.setState({position: ref.offsetHeight})
+          }}
+
         >
-          <li id={number.id} data-pos={key}>
-           <h3> {number.name} <button data-elem="table" data-del={number.id} onClick={this.delElem}>x</button></h3>
+
+           <h3  id={number.id} data-pos={i}> {number.name} <button data-elem="table" data-del={number.id} onClick={this.delElem}>x</button></h3>
             {this.arrLink(number.id)}
-          </li>
-        </Rnd>)
+
+        </Rnd> </li>)
       );
       return (
         <ul>{listItems}</ul>
@@ -78,6 +111,7 @@ arrLink(number){
   }
 
   render() {
+  console.log(this.props)
     return (
      <div>
        {this.rendTabs(this.props)}
@@ -114,17 +148,18 @@ arrLink(number){
 export default connect(
   (state) => ({
     tables: state.get('tables').toJS(),
+    loginForm: state.get('login').toJS()
   }),
   (dispatch) => ({
     getTables: () => {
       dispatch(loadTables()).then(() => {
-	  dispatch(loadLinks());
+	  dispatch(loadLinks())
 	});
   }, resizeTables: (height, width, pos, id) => {
-      dispatch(resizeTable(height, width, pos, id));
+      dispatch(resizeTable(height, width, pos, id))
     },
-      positionTable: (x, y, pos, id) => {
-      dispatch(positionTable(x, y, pos, id))
+      positionTable: (x, y, id) => {
+      dispatch(positionTable(x, y, id))
       },
       deleteLink: (id) => {
       dispatch(deleteLink(id))

@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
                 only personalized value that goes into our token */
                 let payload = {id: userEntry.id};
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                res.json({message: "ok", token: token});
+                res.json({message: "ok", token: token, ...payload});
                 return;
             }
             res.status(401).json({message: "passwords did not match"});
@@ -126,7 +126,7 @@ router.get('/tables/:userId', passport.authenticate('jwt', {session: false}), (r
     let userId = req.params.userId;
     if (validate.isNumberValid(Number(userId), 0)) {
         knex('linkTables').select().where('userID', userId).then((data) => {
-            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
+            res.status(200).send(data);
         });
         return;
     }
