@@ -14,13 +14,36 @@ export function loadLoginForm(_data) {
     };
   }
   export function loadTablesAfterLogin(_data) {
+    console.log('---');
+    console.log(_data);
+    console.log('---');
     return {
       type: 'LOAD_TABLES',
       payload: {
         request: {
-          url:`/tables/{$_data.id}`,
+          url:'/tables/'+_data.id,
           method: 'get'
         }
       }
     };
+  }
+  export function usernameChange(_data){
+    // console.log(_data);
+    return{
+      type:'USERNAME_CHANGE',
+      // user: {},
+      payload:{
+        ..._data
+      }
+    }
+  }
+  export function passwordChange(_data){
+    console.log(_data);
+    return{
+      type:'PASSWORD_CHANGE',
+      // user: {},
+      payload:{
+        ..._data
+      }
+    }
   }

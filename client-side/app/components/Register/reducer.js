@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
-  forms: []
+  user: []
 });
 
 function registerReducer(state = initialState, action) {
@@ -15,6 +15,13 @@ function registerReducer(state = initialState, action) {
     case 'FORMS_LOAD_FAILS':
     console.log(action.payload);
         return state.set('register', action.payload.data);
+    case 'REG_USERNAME_CHANGE':
+      console.log(state);
+    return state.set('regUsername',action.payload.regUsername);
+    case 'REG1_PASSWORD_CHANGE':
+    return state.set('regPassword1',action.payload.regPassword1);
+    case 'REG2_PASSWORD_CHANGE':
+    return state.set('regPassword2',action.payload.regPassword2);
     default:
       return state;
   }
