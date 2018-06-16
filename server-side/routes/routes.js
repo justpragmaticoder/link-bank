@@ -70,7 +70,7 @@ router.post('/login', (req, res) => {
                 only personalized value that goes into our token */
                 let payload = {id: userEntry.id};
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                res.json({message: "ok", token: token,...payload});
+                res.json({message: "ok", token: token, ...payload});
                 return;
             }
             res.status(401).json({message: "passwords did not match"});
@@ -105,7 +105,7 @@ router.post('/create-table', passport.authenticate('jwt', {session: false}), jso
     });
 });
 
-router.post('/create-url', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
+router.post('/create-url', jsonParser, (req, res) => {
     let data = req.body;
     if (validate.regArray['url'].test(data.url)) {
         req.body.text = req.body.text || req.body.url;

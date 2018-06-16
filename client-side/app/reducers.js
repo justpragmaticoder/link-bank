@@ -2,15 +2,16 @@
  * Combine all reducers in this file and export the combined reducers.
  */
 
-import { fromJS } from 'immutable';
-import { combineReducers } from 'redux-immutable';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import {fromJS} from 'immutable';
+import {combineReducers} from 'redux-immutable';
+import {LOCATION_CHANGE} from 'react-router-redux';
 
 import globalReducer from 'components/App/reducer';
 
 import tablesReducer from 'components/Tables/reducer'
 import loginReducer from 'components/Login/reducer'
 import registerReducer from 'components/Register/reducer'
+import addLinkReducer from 'components/AddNewLink/reducer'
 /*
  * routeReducer
  *
@@ -49,6 +50,7 @@ export default function createReducer(injectedReducers) {
     tables: tablesReducer,
     login: loginReducer,
     register: registerReducer,
+    addLink: addLinkReducer,
     ...injectedReducers,
   });
 }
