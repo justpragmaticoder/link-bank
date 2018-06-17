@@ -20,13 +20,10 @@ const axiosMiddlewareOptions = {
   interceptors: {
     request: [
       ({getState, dispatch, getSourceAction}, config) => {
-
-      console.log(localStorage.getItem('token'));
        // let store = state.get('userId').toJS();
         if (localStorage.getItem('token')!==undefined) {
           config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token');
         }
-
         return config
       }
     ],

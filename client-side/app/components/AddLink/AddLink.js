@@ -1,7 +1,8 @@
 /* eslint-disable consistent-return,no-undef */
 import { connect } from 'react-redux';
 import React from 'react';
-import {sendLinkData} from 'actions/addLinkAction'
+import {sendLinkData} from 'actions/addLinkAction';
+import {loadTables, loadLinks} from 'actions/index.js';
 import {Form, Input, Button, Select, Icon} from 'antd';
 //import './style.scss';
 const FormItem = Form.Item;
@@ -23,7 +24,8 @@ class AddLink extends React.PureComponent {
    }else{
       tableID = tableID.id;
    }
-    this.props.addLink(tableID, e.target[1].value, e.target[2].value)
+    this.props.addLink(tableID, e.target[1].value, e.target[2].value);
+    setTimeout(()=>{this.props.getTables()}, 500)
     console.log( e.target[1].value, e.target[2].value);
 };
 
@@ -32,7 +34,7 @@ class AddLink extends React.PureComponent {
     return (
         <Form id="someForm" onSubmit={this.handleSubmit} className="newLink-form">
          <FormItem>
-              <Input prefix={<Icon type="table" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Table" />
+           <Input prefix={<Icon type="table" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Table" />
           </FormItem>
           <FormItem>
             <Input prefix={<Icon type="star-o" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Name" />
@@ -53,6 +55,11 @@ export default connect(
   (dispatch) => ({
       addLink: (table, name, url) => {
         dispatch(sendLinkData(table, name, url))
+      },
+      getTables: () => {
+        dispatch(loadTables()).then(() => {
+          dispatch(loadLinks())
+        });
       }
     }
   ))(AddLink);

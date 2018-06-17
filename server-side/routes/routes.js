@@ -109,10 +109,9 @@ router.post('/create-table', passport.authenticate('jwt', {session: false}), jso
 
 router.post('/create-url/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let data = req.body;
-	let userId = req.params.userId;
+	let userId = req.params.id;
 	console.log(data);
-		if (validate.isNumberValid(Number(req.body.tableID), 0)){
-			
+		if (validate.isNumberValid(Number(req.body.tableID), 0)){	
 			let tableID = req.body.tableID;
 			addLink(req.body.text, req.body.url, tableID);
 			return

@@ -28,23 +28,17 @@ class Tables extends React.PureComponent {
 
     }
   }
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.tables.tables !== prevProps.tables.tables) {
 
-    }
-  }
- /* componentWillUpdate(){
-    if(this.props.tables.update === true){
-      this.props.getTables();
-    }
-  }*/
+
   resizeTable(data){
     let id = data.children[1].getAttribute('id');
     let pos = data.children[1].getAttribute('data-pos');
     console.log(data);
-    this.props.resizeTables(data.offsetHeight, data.offsetWidth, pos, id);
-    this.setState({position: ''})
+    setTimeout(()=>{
+      this.props.resizeTables(data.offsetHeight, data.offsetWidth, pos, id);
+
+    }, 500)
+    //this.setState({position: ''})
   }
   DraggableEventHandler = (data) => {
    // console.log(data);
@@ -93,7 +87,7 @@ arrLink(number){
           onResizeStop={(e, direction, ref, delta, position)=>{
             this.resizeTable(ref);
            // this.DraggableEventHandler(ref);
-           //this.setState({position: ref.offsetHeight})
+           this.setState({position: ref.offsetHeight})
           }}
 
         >
