@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return,no-undef */
 import { connect } from 'react-redux';
-import LinkList from 'components/Link/Link';
+import AddLink from 'components/AddLink/AddLink.js';
 import {loadTables, loadLinks, resizeTable, positionTable, deleteLink, deleteTable, update} from 'actions/index.js';
 //import { Container, Draggable } from "react-smooth-dnd";
 import Rnd from 'react-rnd';
@@ -109,11 +109,14 @@ arrLink(number){
     }
     return <p>What are fuck</p>;
   }
-
+takeData(){
+  console.log('timmi');
+}
   render() {
   console.log(this.props)
     return (
      <div>
+      <div><AddLink props={this.props.tables.tables} func={this.takeData}/></div>
        {this.rendTabs(this.props)}
       </div>
     );

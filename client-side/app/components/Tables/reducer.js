@@ -44,6 +44,15 @@ function tablesReducer(state = initialState, action) {
         item[position] = action.payload.data.data[0]
         //console.log(item, action.payload.data.data[0]);
         return item});
+    case 'CREATE_LINK_SUCCESS':
+      console.log('addUrl');
+      return state.update( 'links', (item) => {
+      /*  let position = item.findIndex((pos) => {
+          return pos.id == action.payload.data.data[0].id
+        })
+        item[position] = action.payload.data.data[0]
+        //console.log(item, action.payload.data.data[0]);*/
+        return item});
     default:
       return state;
   }

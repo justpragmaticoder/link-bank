@@ -107,18 +107,28 @@ router.post('/create-table', passport.authenticate('jwt', {session: false}), jso
     });
 });
 
-router.post('/create-url', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
+router.post('/create-url/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let data = req.body;
-    if (validate.regArray['url'].test(data.url)) {
-        data.text = data.text || data.url;
-        knex('links').returning('id').insert(req.body).then((id) => {
-            knex('links').select().where('id', id).then((data) => {
+	let userId = req.params.userId;
+	console.log(data);
+		if (validate.isNumberValid(Number(req.body.tableID), 0)){
+			
+			let tableID = req.body.tableID;
+			addLink(req.body.text, req.body.url, tableID);
+			return
+		}else{
+			knex('linkTables').returning('id').insert({userID: userId, name: req.body.tableID, width: 200, height: 200, x: 300, y: 300}).then((id) => {
+				addLink(req.body.text, req.body.url, id)
+        })
+		}
+		function addLink(text, url, tableID){
+        knex('links').returning('linkID').insert({text : text, url: url, tableID: tableID}).then((id) => {
+            knex('links').select().where('linkID', id).then((data) => {
                 res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
             });
-        });
-        return;
-    }
-    res.status(400).send(JSON.stringify({'status': 'error', 'data': 'url is not valid'}));
+			})
+		}
+  //  res.status(400).send(JSON.stringify({'status': 'error', 'data': 'url is not valid'}));
 
 });
 
@@ -163,7 +173,7 @@ router.get('/links/:id', passport.authenticate('jwt', {session: false}), jsonPar
     }
     res.status(400).send(JSON.stringify({'status': 'error', 'text': 'url id is not valid'}));
 });*/
-router.put('/update-table/:id', jsonParser, (req, res) => {
+router.put('/update-table/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
 	console.log(req.body);
 	let tableID = req.params.id;
 	if(req.body.action == 'resize'){
