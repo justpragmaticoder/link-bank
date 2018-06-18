@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 import {sendLinkData} from 'actions/addLinkAction';
 import {loadTables, loadLinks} from 'actions/index.js';
-import {Form, Input, Button, Select, Icon} from 'antd';
-//import './style.scss';
+import {Form, Input, Button, Icon} from 'antd';
+
 const FormItem = Form.Item;
 
 
@@ -25,7 +25,7 @@ class AddLink extends React.PureComponent {
       tableID = tableID.id;
    }
     this.props.addLink(tableID, e.target[1].value, e.target[2].value);
-    setTimeout(()=>{this.props.getTables()}, 500)
+    setTimeout(()=>{this.props.getTables()}, 500);
     console.log( e.target[1].value, e.target[2].value);
 };
 
@@ -34,7 +34,7 @@ class AddLink extends React.PureComponent {
     return (
         <Form id="someForm" onSubmit={this.handleSubmit} className="newLink-form">
          <FormItem>
-           <Input prefix={<Icon type="table" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Table" />
+           <Input prefix={<Icon type="table" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Table or name new table" />
           </FormItem>
           <FormItem>
             <Input prefix={<Icon type="star-o" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Name" />
