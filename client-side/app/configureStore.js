@@ -21,6 +21,7 @@ const axiosMiddlewareOptions = {
     request: [
       ({getState, dispatch, getSourceAction}, config) => {
        // let store = state.get('userId').toJS();
+        console.log(state);
         if (localStorage.getItem('token')!==undefined) {
           config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token');
         }

@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return,no-undef */
 import { connect } from 'react-redux';
 import AddLink from 'components/AddLink/AddLink.js';
+import Logout from 'components/LogOut/LogOut.js';
 import {loadTables, loadLinks, resizeTable, positionTable, deleteLink, deleteTable} from 'actions/index.js';
 import Rnd from 'react-rnd';
 import React from 'react';
@@ -25,7 +26,7 @@ class Tables extends React.PureComponent {
     let id = data.children[1].getAttribute('id');
     let pos = data.children[1].getAttribute('data-pos');
     console.log(data);
-    setTimeout(()=>{
+    setTimeout(() => {
       this.props.resizeTables(data.offsetHeight, data.offsetWidth, pos, id);
     }, 500)
   }
@@ -57,8 +58,6 @@ class Tables extends React.PureComponent {
     if (this.props.tables.tables.length !== 0) {
       const numbers = props.tables.tables;
       const listItems = numbers.map((number, i) =>
-
-
          ( <li style={{width: number.width, height: number.height,}} key={number.id}>
           <Rnd
             key={i}
@@ -91,6 +90,7 @@ class Tables extends React.PureComponent {
   render() {
     return (
      <div>
+      <Logout/>
       <div><AddLink/></div>
        {this.rendTabs(this.props)}
       </div>
