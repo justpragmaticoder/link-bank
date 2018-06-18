@@ -16,12 +16,9 @@ class Tables extends React.PureComponent {
   }
 
   componentWillMount() {
-    let id = localStorage.getItem('userId');
-    console.log(id);
     this.props.getTables();
     if (this.props.tables.tables.length !== 0) {
       this.setState({windWidth: window.innerWidth});
-
     }
   }
   resizeTable(data){
@@ -30,12 +27,11 @@ class Tables extends React.PureComponent {
     console.log(data);
     setTimeout(()=>{
       this.props.resizeTables(data.offsetHeight, data.offsetWidth, pos, id);
-
     }, 500)
   }
-  DraggableEventHandler = (e, data) => {
+  DraggableEventHandler = (data) => {
     let id = data.node.children[0].getAttribute('id');
-    console.log(id);
+    console.log(data.node);
     let i = data.node.children[0].getBoundingClientRect();
     console.log(i);
     this.props.positionTable(i.x, i.y, id);
@@ -65,22 +61,21 @@ class Tables extends React.PureComponent {
 
          ( <li style={{width: number.width, height: number.height,}} key={number.id}>
           <Rnd
-          key={i}
-          style={{ width: number.width, height: number.height, border: '2px solid black', /*position: 'absolute',top: number.y, left: number.x*/}}
-          size={{ width: number.width, height: number.height }}
-          onDragStop={(e, d) => {
-            this.DraggableEventHandler(d);
-          }}
-          onResize={(e, direction, ref, delta, position) => {
-            this.resizeTable(ref);
-            this.setState({position: position})
-          }}
-          onResizeStop={(e, direction, ref, delta, position)=>{
-            this.resizeTable(ref);
-           this.setState({position: ref.offsetHeight})
-          }}
-
-        >
+            key={i}
+            style={{ width: number.width, height: number.height, border: '2px solid black', /*position: 'absolute',top: number.y, left: number.x*/}}
+            size={{ width: number.width, height: number.height }}
+            onDragStop={(e, d) => {
+               this.DraggableEventHandler(d);
+             }}
+            onResize={(e, direction, ref, delta, position) => {
+                this.resizeTable(ref);
+                this.setState({position: position})
+                }}
+            onResizeStop={(e, direction, ref, delta, position)=>{
+              this.resizeTable(ref);
+              this.setState({position: ref.offsetHeight})
+              }}
+             >
 
            <h3  id={number.id} data-pos={i}> {number.name} <button data-elem="table" data-del={number.id} onClick={this.delElem}>x</button></h3>
             {this.arrLink(number.id)}
