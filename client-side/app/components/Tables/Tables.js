@@ -24,8 +24,6 @@ class Tables extends React.PureComponent {
 
     }
   }
-
-
   resizeTable(data){
     let id = data.children[1].getAttribute('id');
     let pos = data.children[1].getAttribute('data-pos');
@@ -34,7 +32,6 @@ class Tables extends React.PureComponent {
       this.props.resizeTables(data.offsetHeight, data.offsetWidth, pos, id);
 
     }, 500)
-    //this.setState({position: ''})
   }
   DraggableEventHandler = (e, data) => {
     let id = data.node.children[0].getAttribute('id');
@@ -43,7 +40,7 @@ class Tables extends React.PureComponent {
     console.log(i);
     this.props.positionTable(i.x, i.y, id);
   };
-delElem(id){
+  delElem(id){
   if(id.target.getAttribute('data-elem') === 'link') {
     this.props.deleteLink(id.target.getAttribute('data-del'));
   }else if(id.target.getAttribute('data-elem') === 'table'){
@@ -52,7 +49,7 @@ delElem(id){
 
 }
 
-arrLink(number){
+  arrLink(number){
       let arr = this.props.tables.links.filter((item) => {
         return item.tableID === number
       });
@@ -106,28 +103,28 @@ arrLink(number){
   }
 
 }
-export default connect(
-  (state) => ({
-    tables: state.get('tables').toJS(),
-    loginForm: state.get('login').toJS()
-  }),
-  (dispatch) => ({
-    getTables: () => {
-      dispatch(loadTables()).then(() => {
-	  dispatch(loadLinks())
-	});
-  }, resizeTables: (height, width, pos, id) => {
-      dispatch(resizeTable(height, width, pos, id))
-    },
-      positionTable: (x, y, id) => {
-      dispatch(positionTable(x, y, id))
+  export default connect(
+    (state) => ({
+      tables: state.get('tables').toJS(),
+      loginForm: state.get('login').toJS()
+    }),
+    (dispatch) => ({
+      getTables: () => {
+        dispatch(loadTables()).then(() => {
+      dispatch(loadLinks())
+    });
+    }, resizeTables: (height, width, pos, id) => {
+        dispatch(resizeTable(height, width, pos, id))
       },
-      deleteLink: (id) => {
-      dispatch(deleteLink(id))
-      },
-      deleteTable: (id) => {
-        dispatch(deleteTable(id))
-      },
-    }
-  ))(Tables);
+        positionTable: (x, y, id) => {
+        dispatch(positionTable(x, y, id))
+        },
+        deleteLink: (id) => {
+        dispatch(deleteLink(id))
+        },
+        deleteTable: (id) => {
+          dispatch(deleteTable(id))
+        },
+      }
+    ))(Tables);
 
