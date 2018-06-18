@@ -6,19 +6,127 @@
   padding: 0 16px;
   flex-direction: column;
 }
-div{
-	width:100px;
-	height:100px;
+// div{
+// 	width:100px;
+// 	height:100px;
+// }
+// ul{
+
+// }
+
+// li{
+// 	float: left;
+//   display: inline-block;
+//   margin: 10px;
+// }
+// a{
+//   display: block;
+// }
+.my-table .react-draggable{
+  // background: red;
+}
+li{
+  list-style-type: none;
 }
 ul{
-
+  margin:0px;
+  padding:0px;
 }
-
-li{
-	float: left;
-  display: inline-block;
-  margin: 10px;
+h3{
+  margin:0px;
+  padding:0px;
 }
-a{
-  display: block;
+.my-table {
+  
+  .react-draggable{
+  border:1px solid #d9d9d9;
+  background: #fff;
+  border-radius: 5px 5px 15px 15px;
+  z-index: 5;
+  overflow: hidden;
+  // padding:10px;
+  }
+  h3{
+    color: #aaa;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    button{
+      i{
+        transition: 0.2s;
+        &:hover{
+          cursor: pointer;
+          color: #000;
+          transform: rotate(90deg);
+        }
+       
+      }
+    }
+    &:hover{
+      background: #fafafa;
+      z-index: -5;
+      border-radius: 5px 5px 0 0;
+    }
+  }
+  li{
+    display: flex;
+    justify-content: space-between;
+    margin:10px;
+    padding: 10px;
+    border-radius: 5px;
+    border:1px solid #d9d9d9;
+    box-shadow: 0 10px 6px -6px #777;
+    &:hover{
+      background: #f7f7f7;
+    }
+    .delete-button{
+      margin-right:-10px;
+      color: #1890ff;
+      opacity: 0.3;
+      &:hover{
+        cursor: pointer;
+        opacity: 0.8;
+      }
+    }
+    a{
+      text-decoration: underline;
+      font-weight: 500;
+      color: #aaa;
+      opacity: 0.8;
+      font-size: 16px;;
+      margin-top: 2px;
+      &:hover{
+        opacity:1;
+      }
+    }
+  }
+}
+.addlink{
+  display: inline;
+  button{
+    background: transparent;
+    border: none;
+    transition: 0.3s;
+    padding:0;
+    &:hover{
+      background: transparent;
+      border: none;
+    }
+    &:focus{
+      background: transparent;
+      border: none;
+    }
+    &:hover i{
+      transform: rotate(180deg);
+    }
+    i{
+      color: #40a9ff;
+      &:hover{
+      }
+    }
+  }
+}
+.top-container{
+  display: flex;
 }

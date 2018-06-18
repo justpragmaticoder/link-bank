@@ -7,13 +7,28 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 
 // import { Button } from 'antd';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox , message} from 'antd';
 import { createStore } from 'redux'
 const FormItem = Form.Item;
 const regArray= {
     'login': /^[a-zA-Z]+$/,
     'password': /^[a-zA-Z0-9]+$/,
 }
+const messageArray = {
+    'allOk': (data) => {message.success(data)},
+    'error': (data) => {message.error(data)},
+    'ok':""
+}
+const success = (data) => {
+    if (!qq) {
+    message.success(data);
+    }
+    qq++;
+  };
+  
+  const error = (data) => {
+    message.error(data);
+  };
 class Login extends React.Component {
     constructor(props) {
         super(props);
