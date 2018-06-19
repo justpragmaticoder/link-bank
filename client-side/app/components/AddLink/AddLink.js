@@ -104,17 +104,18 @@ class AddLink extends React.PureComponent {
           title={this.props.title}
           visible={this.state.visible}
           onOk={this.handleOk}
+          onCancel={this.handleCancel}
           okText="Add link"
         >
         <Form id="someForm" onSubmit={this.handleSubmit} className="newLink-form">
-         <FormItem>
+         {/* <FormItem>
            <Input
            prefix={<Icon type="table" style={{ color: 'rgba(0,0,0,.25)' }} />}
            placeholder="Table"
            name="table"
            id="table"
            />
-          </FormItem>
+          </FormItem> */}
           <FormItem>
             <Input
             prefix={<Icon type="star-o" style={{ color: 'rgba(0,0,0,.25)' }} />}

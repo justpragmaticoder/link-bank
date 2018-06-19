@@ -18,14 +18,21 @@ h3{
   margin:0px;
   padding:0px;
 }
-.my-table {
-  position: static;
-  .react-draggable{
+.react-draggable{
   border:1px solid #d9d9d9;
   background: #fff;
   border-radius: 5px 5px 15px 15px;
   z-index: 5;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right:30px;
+}
+.my-table {
+  // overflow-y: auto;
+  // position: static;
+  .react-draggable{
+  
+  // overflow: hidden;
   // padding:10px;
   }
   h3{
@@ -63,7 +70,7 @@ h3{
       background: #f7f7f7;
     }
     .delete-button{
-      margin-right:-10px;
+      margin-right:5px;
       color: #1890ff;
       opacity: 0.3;
       &:hover{
@@ -120,4 +127,21 @@ h3{
   &:hover{
     box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.2);
   }
+}
+.edit-button{
+  font-size: 25px;
+  margin-right:20px;
+  font-weight: 800;
+  color: #1890ff;
+  opacity: 0.3;
+  &:hover{
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+.logout{
+  // transform: scale(2,2);
+  position: absolute!important;
+  top:5%;
+  right:3%;
 }
