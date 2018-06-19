@@ -31,7 +31,7 @@ class Tables extends React.PureComponent {
 
 
   resizeTable(data){
-    let id = data.children[1].getAttribute('id');
+    let id = data.children[1].getAttribute('data-id');
     let pos = data.children[1].getAttribute('data-pos');
     console.log(data);
     setTimeout(()=>{
@@ -42,18 +42,19 @@ class Tables extends React.PureComponent {
   }
   DraggableEventHandler = (data) => {
    // console.log(data);
-    let id = data.node.children[0].getAttribute('id');
+    let id = data.node.children[0].getAttribute('data-id');
     //console.log(id);
     let i = data.node.children[0].getBoundingClientRect();
-    this.props.positionTable(i.left, i.top, id);
+    this.props.positionTable(i.left - 10, i.top - 10, id);
   };
 delElem(id){
+  console.log(id.target.getAttribute('data-elem'));
   if(id.target.getAttribute('data-elem') == 'link') {
     this.props.deleteLink(id.target.getAttribute('data-del'));
   }else if(id.target.getAttribute('data-elem') == 'table'){
     this.props.deleteTable(id.target.getAttribute('data-del'));
   }
-
+  setTimeout(()=>{this.props.getTables()}, 500)
 }
 
 arrLink(number){
@@ -62,8 +63,7 @@ arrLink(number){
       });
 
   return <ul>{arr.map((item, i) => <li ><a key={i} href={item.url}>{item.text}</a>
-    <button data-elem="link" data-del={item.linkID} onClick={this.delElem}><i className="material-icons delete-button">delete</i>
-</button></li>)}</ul>
+    <i className="material-icons delete-button" data-elem ="link" data-del={item.linkID} onClick={this.delElem}>delete</i></li>)}</ul>
 }
   rendTabs(props) {
     if (this.props.tables.tables.length !== 0) {
@@ -91,10 +91,10 @@ arrLink(number){
            this.setState({position: ref.offsetHeight})
           }}
 
-        ><li id={number.id} data-pos={i}/*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
+        ><li data-id={number.id} data-pos={i}/*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
            <h3  > <span>{number.name}</span>
            <div className="top-container"><AddLink props={this.props.tables.tables} func={this.takeData}/>
-            <button data-elem="table" data-del={number.id} onClick={this.delElem}><i className="material-icons">clear</i></button>
+            <i className="material-icons" data-elem="table" data-del={number.id} onClick={this.delElem}>clear</i>
             </div></h3>
             {this.arrLink(number.id)}
           </li>
@@ -104,11 +104,9 @@ arrLink(number){
         <ul>{listItems}</ul>
       );
     }
-    return <p>What are fuck</p>;
+    return <p>Here can be your links</p>;
   }
-takeData(){
-  console.log('timmi');
-}
+
   render() {
   console.log(this.props)
     return (
@@ -118,31 +116,6 @@ takeData(){
     );
   }
 
-/*  createStyle(props) {
-    const styleArr = {};
-    if (this.props.tables.tables.length != 0) {
-      let globWidth = 0;
-      const numbers = props.tables.tables;
-      numbers.forEach((item, index) => {
-        const width = item.width;
-        const height = item.height;
-        const x = item.x;
-        const y = item.y;
-        const divStyle = {
-          color: 'red',
-          border: '1px solid black',
-        width: width + 'px',
-          height: height + 'px',
-          position: 'absolute',
-          top: x + 'px',
-          left: y  + 'px',
-        };
-        globWidth += (width + 10);
-        styleArr[item.id] = divStyle;
-      });
-      return styleArr;
-    }
-  }*/
 }
 export default connect(
   (state) => ({

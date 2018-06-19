@@ -19,12 +19,13 @@ export function loadLinks() {
     type: 'LINKS_LOAD',
     payload: {
       request: {
-        url: '/links',
+        url: '/links/' + localStorage.getItem('userId'),
       }
     }
   };
 }
 export function deleteLink(id) {
+  console.log('deleted' + id);
   return {
     type: 'LINK_DELETE',
     payload: {
