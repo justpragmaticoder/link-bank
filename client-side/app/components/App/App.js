@@ -16,6 +16,7 @@ import Login from 'components/Login/Login';
 
 
 import './style.scss';
+import Register from '../Register/Register';
 
 const App = () => (
   <div /*className="app-wrapper"*/>
@@ -23,6 +24,7 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={Tables} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/register" component={Register} />
       <Route path="" component={NotFoundPage} />
     </Switch>
   </div>
