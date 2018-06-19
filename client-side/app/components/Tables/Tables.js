@@ -55,7 +55,7 @@ delElem(id){
         return item.tableID === number
       });
 
-  return <ul>{arr.map((item, i) => <li ><a key={i} href={item.url}>{item.text}</a>
+  return <ul>{arr.map((item, i) => <li ><a key={i} href={item.url}>{item.text}</a><i data-edit={item.id} onClick={this.editLink}>edit</i>
     <i className="material-icons delete-button" data-elem ="link" data-del={item.linkID} onClick={this.delElem}>delete</i></li>)}</ul>
 }
 editLink(){
@@ -89,7 +89,7 @@ editLink(){
 
         ><li data-id={number.id} data-pos={i}/*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
            <h3  > <span>{number.name}</span>
-           <div className="top-container"><i data-edit={number.id} onClick={this.editLink}>edit</i>
+           <div className="top-container">
             <i className="material-icons" data-elem="table" data-del={number.id} onClick={this.delElem}>clear</i>
             </div></h3>
             {this.arrLink(number.id)}
