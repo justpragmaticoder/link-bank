@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
                 only personalized value that goes into our token */
                 let payload = {id: userEntry.id};
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                res.json({message: "ok", token: token, ...payload});
+                res.json({message: "ok", token: token, ...payload, login: login});
                 return;
             }
             res.status(401).json({message: "passwords did not match"});
@@ -109,32 +109,30 @@ router.post('/create-table', passport.authenticate('jwt', {session: false}), jso
 
 router.post('/create-url/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let data = req.body;
-	let userId = req.params.id;
-	console.log(data);
-		if (validate.isNumberValid(Number(req.body.tableID), 0)){	
-			let tableID = req.body.tableID;
-			addLink(req.body.text, req.body.url, tableID);
-			return
-		}else{
-			knex('linkTables').returning('id').insert({userID: userId, name: req.body.tableID, width: 200, height: 200, x: 300, y: 300}).then((id) => {
-				addLink(req.body.text, req.body.url, id)
-        })
-		}
-		function addLink(text, url, tableID){
-        knex('links').returning('linkID').insert({text : text, url: url, tableID: tableID}).then((id) => {
-            knex('links').select().where('linkID', id).then((data) => {
-                res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
-            });
-			})
-		}
-  //  res.status(400).send(JSON.stringify({'status': 'error', 'data': 'url is not valid'}));
-
+    let userId = req.params.id;
+    console.log(data);
+    if (validate.isNumberValid(Number(req.body.tableID), 0)) {
+        let tableID = req.body.tableID;
+        addLink(req.body.text, req.body.url, tableID, res);
+        return;
+    }
+    knex('linkTables').returning('id').insert({
+        userID: userId,
+        name: req.body.tableID,
+        width: 200,
+        height: 200,
+        x: 300,
+        y: 300
+    }).then((id) => {
+        addLink(req.body.text, req.body.url, id, res)
+    })
+    //  res.status(400).send(JSON.stringify({'status': 'error', 'data': 'url is not valid'}));
 });
 
 router.get('/tables/:userId', passport.authenticate('jwt', {session: false}), (req, res) => {
     let userId = req.params.userId;
     if (validate.isNumberValid(Number(userId), 0)) {
-        knex('linkTables').select().where({userID : userId, removed: 0}).then((data) => {
+        knex('linkTables').select().where({userID: userId, removed: 0}).then((data) => {
             res.status(200).send(data);
         });
         return;
@@ -145,7 +143,7 @@ router.get('/tables/:userId', passport.authenticate('jwt', {session: false}), (r
 router.get('/links/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let id = req.params.id;
     if (validate.isNumberValid(Number(id), 0)) {
-        knex('links').select().where({userID: id, removed : 0}).then((data) => {
+        knex('links').select().where({userID: id, removed: 0}).then((data) => {
             res.status(200).send(data);
         });
         return;
@@ -173,27 +171,29 @@ router.get('/links/:id', passport.authenticate('jwt', {session: false}), jsonPar
     res.status(400).send(JSON.stringify({'status': 'error', 'text': 'url id is not valid'}));
 });*/
 router.put('/update-table/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
-	console.log(req.body);
-	let tableID = req.params.id;
-	if(req.body.action == 'resize'){
-	knex('linkTables').where('id', tableID).update({width: req.body.width, height: req.body.height}).then(() => {
+    console.log(req.body);
+    let tableID = req.params.id;
+    if (req.body.action === 'resize') {
+        knex('linkTables').where('id', tableID).update({width: req.body.width, height: req.body.height}).then(() => {
             knex('linkTables').select().where('id', tableID).then((data) => {
                 res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
             });
         });
-	}else if(req.body.action == 'relocate'){
-	knex('linkTables').where('id', tableID).update({x: req.body.x, y: req.body.y}).then(() => {
+        return;
+    }
+    if (req.body.action === 'relocate') {
+        knex('linkTables').where('id', tableID).update({x: req.body.x, y: req.body.y}).then(() => {
             knex('linkTables').select().where('id', tableID).then((data) => {
                 res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
             });
         });
-	}else{
-		res.status(400).send(JSON.stringify({'status': 'error', 'text': 'what\'s up, I don\'t know:-('}));
-	}
-	//res.status(400).send(JSON.stringify({'status': 'error', 'text': 'url id is not valid'}));
-	/*console.log(req.data);
-	//let tableID = Number(req.data.id);
-	console.log(tableID);
+        return;
+    }
+    res.status(400).send(JSON.stringify({'status': 'error', 'text': 'what\'s up, I don\'t know:-('}));
+    //res.status(400).send(JSON.stringify({'status': 'error', 'text': 'url id is not valid'}));
+    /*console.log(req.data);
+    //let tableID = Number(req.data.id);
+    console.log(tableID);
     if (validate.isNumberValid(Number(tableID), 0)) {
         let valParams = validate.isTableParamsValid(req.query);
         if (valParams.length > 0) {
@@ -224,23 +224,21 @@ router.put('/update-url/:id', passport.authenticate('jwt', {session: false}), js
             })
         });
     }
+    res.status(400).send(JSON.stringify({'status': 'error', 'data': 'url id is not valid'}));
 });
 
 router.delete('/delete-table/:id', jsonParser, (req, res) => {
     let tableID = req.params.id;
-	if (validate.isNumberValid(Number(tableID), 0)) {
-	knex('linkTables').where('id', tableID).update({removed: 1}).then(() => {
-            knex('links').where('tableID', tableID).update({removed: 1}).then((data)=>{
-            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}))}
-			);
+    if (validate.isNumberValid(Number(tableID), 0)) {
+        knex('linkTables').where('id', tableID).update({removed: 1}).then(() => {
+            knex('links').where('tableID', tableID).update({removed: 1}).then((data) => {
+                    res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}))
+                }
+            );
         });
-	return;
+        return;
     }
-	res.status(400).send(JSON.stringify({'status': 'error', 'data': 'table id is not valid'}));
-    /*
-        
-        
-    */
+    res.status(400).send(JSON.stringify({'status': 'error', 'data': 'table id is not valid'}));
 });
 /*
 router.post('/delete-url/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
@@ -254,15 +252,15 @@ router.post('/delete-url/:id', passport.authenticate('jwt', {session: false}), j
     res.status(400).send(JSON.stringify({'status': 'error', 'data': 'link id is not valid'}));
 });
 */
-router.post('/delete-url/:id',/* passport.authenticate('jwt', {session: false}),*/ jsonParser, (req, res) => {
+router.post('/delete-url/:id', /* passport.authenticate('jwt', {session: false}),*/ jsonParser, (req, res) => {
     let linkID = req.params.id;
-	//if (validate.isNumberValid(Number(linkID), 0)) {
-	console.log(linkID);
-	knex('links').where('linkID', linkID).update({removed: 1}).then((data) => {
+    if (validate.isNumberValid(Number(linkID), 0)) {
+        console.log(linkID);
+        knex('links').where('linkID', linkID).update({removed: 1}).then((data) => {
             res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
         });
-       return;
-   // }
+        return;
+    }
     res.status(400).send(JSON.stringify({'status': 'error', 'data': 'link id is not valid'}));
 });
 router.get('/retrieve', (req, res) => {
@@ -270,13 +268,22 @@ router.get('/retrieve', (req, res) => {
 });
 router.get('/links', (req, res) => {
     knex.select().from('links').then((data) => {
-            res.send(data);
-        });
+        res.send(data);
+    });
 });
+
 function getTablesData(res) {
-   knex.select().from('linkTables').then((data) => {
-            res.send(data);
+    knex.select().from('linkTables').then((data) => {
+        res.send(data);
+    });
+}
+
+function addLink(text, url, tableID, res) {
+    knex('links').returning('linkID').insert({text: text, url: url, tableID: tableID}).then((id) => {
+        knex('links').select().where('linkID', id).then((data) => {
+            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
         });
+    })
 }
 
 module.exports = router;
