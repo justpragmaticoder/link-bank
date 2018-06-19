@@ -68,6 +68,17 @@ export function resizeTable(height, width, pos, id) {
     }
   };
 }
+export function logout(){
+  return {
+    type: 'LOGOUT',
+    payload:{
+      data:{
+        token: "",
+        id: ""
+      }
+    }
+  }
+}
 export function positionTable(x, y, id) {
   return {
     type: 'POSITION_TABLE',

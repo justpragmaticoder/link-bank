@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return,no-undef */
 import { connect } from 'react-redux';
 import AddLink from 'components/AddLink/AddLink.js';
-import {loadTables, loadLinks, resizeTable, positionTable, deleteLink, deleteTable, update} from 'actions/index.js';
+import {logout, loadTables, loadLinks, resizeTable, positionTable, deleteLink, deleteTable, update} from 'actions/index.js';
 //import { Container, Draggable } from "react-smooth-dnd";
 import Rnd from 'react-rnd';
 import React from 'react';
@@ -17,7 +17,16 @@ class Tables extends React.PureComponent {
     this.state = {tables: this.props.tables.tables
     }
   }
+  handleLogout() {
+    // console.log(this.props.loginForm);
+    this.props.history.push('/login');
 
+    this.props.loginForm.userId = {};
+    localStorage.setItem("token", "");
+      localStorage.setItem("userId", "");
+    //в общем глянь или так, или я там action еще создавал. там другие ошибки летят
+    // this.props.logout();
+  }
   componentWillMount() {
     let id = localStorage.getItem('userId');
     console.log(id);
@@ -63,7 +72,7 @@ delElem(id){
     </ul>
 }
 editLink(){
-
+  console.log(this.props);
 }
   rendTabs(props) {
     if (this.props.tables.tables.length !== 0) {
@@ -107,11 +116,11 @@ editLink(){
     }
     return <p>Here can be your links</p>;
   }
-
+  
   render() {
     return (
      <div>
-       <Button type="primary" size={'large'} className="logout">
+       <Button type="primary" size={'large'} className="logout" onClick={this.handleLogout.bind(this)}>
        Logout <Icon type="logout" />
        </Button>
        {this.rendTabs(this.props)}
@@ -145,6 +154,9 @@ export default connect(
       deleteTable: (id) => {
         dispatch(deleteTable(id))
       },
+      logout: ()=>{
+        dispatch(logout());
+      }
     }
   ))(Tables);
 

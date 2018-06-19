@@ -40,6 +40,16 @@ function tablesReducer(state = initialState, action) {
      console.log(item);
      console.log(action.payload.data.data[0]);
         return item});
+    case 'CREATE_TABLE_SUCCESS':
+        return state.update('tables', 1);
+    case 'LOGOUT':
+        console.log('logout');
+    return 1;
+  //  localStorage.setItem("userId", action.payload.data.id);
+  //     localStorage.setItem("token", action.payload.data.token);
+  //     console.log(localStorage.getItem('userId'));
+  //     console.log(localStorage.getItem('token'));
+  //     return state.set('login', action.payload.data);
     default:
       return state;
   }
