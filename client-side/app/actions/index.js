@@ -19,7 +19,7 @@ export function loadLinks() {
     type: 'LINKS_LOAD',
     payload: {
       request: {
-        url: '/links',
+        url: '/links/' +localStorage.getItem('userId'),
       }
     }
   };
