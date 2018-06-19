@@ -12,7 +12,7 @@ function tablesReducer(state = initialState, action) {
       return state.set('tables', action.payload.data);
     case 'LINKS_LOAD_SUCCESS':
       //console.log(state.get('tables'));
-      return state.set( 'links', action.payload.data.data);
+      return state.set( 'links', action.payload.data);
     case 'RESIZE_TABLE_SUCCESS':
       //console.log('resize');
       return state.update( 'tables', (item) => {

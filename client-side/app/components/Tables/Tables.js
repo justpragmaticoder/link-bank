@@ -69,7 +69,7 @@ arrLink(number){
     if (this.props.tables.tables.length !== 0) {
       const numbers = props.tables.tables;
       const listItems = numbers.map((number, i) =>
-        ( <li /*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
+        (
           <Rnd
           key={i}
           //ref={c => { this.rnd[number.id] = c; }}
@@ -91,15 +91,14 @@ arrLink(number){
            this.setState({position: ref.offsetHeight})
           }}
 
-        >
-
-           <h3  id={number.id} data-pos={i}> <span>{number.name}</span>
+        ><li id={number.id} data-pos={i}/*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
+           <h3  > <span>{number.name}</span>
            <div className="top-container"><AddLink props={this.props.tables.tables} func={this.takeData}/>
             <button data-elem="table" data-del={number.id} onClick={this.delElem}><i className="material-icons">clear</i></button>
             </div></h3>
             {this.arrLink(number.id)}
-
-        </Rnd> </li>)
+          </li>
+        </Rnd> )
       );
       return (
         <ul>{listItems}</ul>

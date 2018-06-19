@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
                 only personalized value that goes into our token */
                 let payload = {id: userEntry.id};
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                res.json({message: "ok", token: token, login: req.body.login, ...payload});
+                res.json({message: "ok", token: token, ...payload});
                 return;
             }
             res.status(401).json({message: "passwords did not match"});
@@ -134,7 +134,7 @@ router.post('/create-url/:id', passport.authenticate('jwt', {session: false}), j
 router.get('/tables/:userId', passport.authenticate('jwt', {session: false}), (req, res) => {
     let userId = req.params.userId;
     if (validate.isNumberValid(Number(userId), 0)) {
-        knex('linkTables').select().where({userID: userId, removed: 0}).then((data) => {
+        knex('linkTables').select().where('userID', userId).then((data) => {
             res.status(200).send(data);
         });
         return;
@@ -145,7 +145,7 @@ router.get('/tables/:userId', passport.authenticate('jwt', {session: false}), (r
 router.get('/links/:id', passport.authenticate('jwt', {session: false}), jsonParser, (req, res) => {
     let id = req.params.id;
     if (validate.isNumberValid(Number(id), 0)) {
-        knex('links').select().where({userId: id, removed: 0}).then((data) => {
+        knex('links').select().where('tableId', id).then((data) => {
             res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
         });
         return;
@@ -258,7 +258,7 @@ router.post('/delete-url/:id',/* passport.authenticate('jwt', {session: false}),
     let linkID = req.params.id;
 	if (validate.isNumberValid(Number(linkID), 0)) {
 	knex('links').where('linkID', linkID).update({removed: 1}).then((data) => {
-            res.status(200).send(data);
+            res.status(200).send(JSON.stringify({'status': 'ok', 'data': data}));
         });
        return;
     }
@@ -267,11 +267,11 @@ router.post('/delete-url/:id',/* passport.authenticate('jwt', {session: false}),
 router.get('/retrieve', (req, res) => {
     getTablesData(res);
 });
-/*router.get('/links', (req, res) => {
+router.get('/links', (req, res) => {
     knex.select().from('links').then((data) => {
             res.send(data);
         });
-});*/
+});
 function getTablesData(res) {
    knex.select().from('linkTables').then((data) => {
             res.send(data);
