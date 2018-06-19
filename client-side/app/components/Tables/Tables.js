@@ -15,6 +15,7 @@ class Tables extends React.PureComponent {
   constructor(props) {
     super(props);
     this.delElem = this.delElem.bind(this);
+    this.editLink = this.editLink.bind(this);
     this.state = {tables: this.props.tables.tables
     }
   }
@@ -40,15 +41,12 @@ class Tables extends React.PureComponent {
     }, 500)
     //this.setState({position: ''})
   }
-  DraggableEventHandler = (data) => {
-   // console.log(data);
+  DraggableEventHandler = (e, data) => {
     let id = data.node.children[0].getAttribute('data-id');
-    //console.log(id);
     let i = data.node.children[0].getBoundingClientRect();
     this.props.positionTable(i.left - 10, i.top - 10, id);
   };
 delElem(id){
-  console.log(id.target.getAttribute('data-elem'));
   if(id.target.getAttribute('data-elem') == 'link') {
     this.props.deleteLink(id.target.getAttribute('data-del'));
   }else if(id.target.getAttribute('data-elem') == 'table'){
@@ -65,6 +63,9 @@ arrLink(number){
   return <ul>{arr.map((item, i) => <li ><a key={i} href={item.url}>{item.text}</a>
     <i className="material-icons delete-button" data-elem ="link" data-del={item.linkID} onClick={this.delElem}>delete</i></li>)}</ul>
 }
+editLink(){
+
+}
   rendTabs(props) {
     if (this.props.tables.tables.length !== 0) {
       const numbers = props.tables.tables;
@@ -78,22 +79,20 @@ arrLink(number){
           size={{ width: number.width, height: number.height }}
           //position={{ x: number.x, y: number.y }}
           onDragStop={(e, d) => {
-            this.DraggableEventHandler(d);
+            this.DraggableEventHandler(e, d);
           }}
           onResize={(e, direction, ref, delta, position) => {
             this.resizeTable(ref);
             this.setState({position: position})
-            //this.setState({position: direction})
           }}
           onResizeStop={(e, direction, ref, delta, position)=>{
             this.resizeTable(ref);
-           // this.DraggableEventHandler(ref);
            this.setState({position: ref.offsetHeight})
           }}
 
         ><li data-id={number.id} data-pos={i}/*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
            <h3  > <span>{number.name}</span>
-           <div className="top-container"><AddLink props={this.props.tables.tables} func={this.takeData}/>
+           <div className="top-container"><i data-edit={number.id} onClick={this.editLink}>edit</i>
             <i className="material-icons" data-elem="table" data-del={number.id} onClick={this.delElem}>clear</i>
             </div></h3>
             {this.arrLink(number.id)}
@@ -108,9 +107,9 @@ arrLink(number){
   }
 
   render() {
-  console.log(this.props)
     return (
      <div>
+       <AddLink title={'Create link'}/>
        {this.rendTabs(this.props)}
       </div>
     );

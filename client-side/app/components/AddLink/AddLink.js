@@ -87,11 +87,12 @@ class AddLink extends React.PureComponent {
       tableID = tableID.id;
    }
     this.props.addLink(tableID, e.target[1].value, e.target[2].value);
-    setTimeout(()=>{this.props.getTables()}, 500)
+    setTimeout(()=>{this.props.getTables()}, 500);
     console.log( e.target[1].value, e.target[2].value);
 };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <div className="addlink">
@@ -100,11 +101,10 @@ class AddLink extends React.PureComponent {
           </Button>
         </div>
         <Modal
-          title="Basic Modal"
+          title={this.props.title}
           visible={this.state.visible}
           onOk={this.handleOk}
           okText="Add link"
-          onCancel={this.handleCancel}
         >
         <Form id="someForm" onSubmit={this.handleSubmit} className="newLink-form">
          <FormItem>
