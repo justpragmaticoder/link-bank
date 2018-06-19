@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return,no-undef */
 import React from 'react';
 import { connect } from 'react-redux';
-import loadRegisterForms from 'actions/registerActions.js';
+import {loadRegisterForm, loadTablesAfterLogin, usernameChange, password1Change, password2Change} from 'actions/registerActions.js';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 
@@ -15,23 +15,51 @@ class Register extends React.Component {
         console.log(props);
         // console.log(loadTables);
       }
-      handleClick = ()=>{
-          console.log('qq');
-          console.log(document.getElementById('qq').value);
+      handleClick=()=>{
+          this.props.sendRegisterForm({
+            login: this.props.register.regUsername,
+            password: this.props.register.regPassword1
+          });
+          console.log(this.props.sendRegisterForm);
+      }
+      handleUsernameChange(event){
+        this.props.onUsernameChange({regUsername:event.target.value});
+      }
+      handlePassword1Change(event){
+        this.props.onPassword1Change({regPassword1:event.target.value});
+      }
+      handlePassword2Change(event){
+        this.props.onPassword2Change({regPassword2:event.target.value});
       }
       render() {
         return (
           <Form className="login-form">
             <p>Register form</p>
             <FormItem>
-                <Input id="qq" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                <Input 
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+                placeholder="Username"
+                onChange = {this.handleUsernameChange.bind(this)}
+                />
             </FormItem>
             <FormItem>
-                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                <Input 
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+                type="password" 
+                placeholder="Password"
+                onChange = {this.handlePassword1Change.bind(this)}
+                />
             </FormItem>
             <FormItem>
-                <Checkbox>Remember me</Checkbox>
-              <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.props.sendRegisterForm.bind(this)}>
+                <Input 
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+                type="password" 
+                placeholder="Password" 
+                onChange = {this.handlePassword2Change.bind(this)}
+                />
+            </FormItem>
+            <FormItem>
+              <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.handleClick.bind(this)}>
                 Register
               </Button>
             </FormItem>
@@ -42,11 +70,20 @@ class Register extends React.Component {
 
     export default connect(
         (state) => ({
-          login: state.get('tables').toJS(),
+          register: state.get('register').toJS(),
         }),
         (dispatch) => ({
-          sendRegisterForm: () => {
-            dispatch(loadRegisterForms('privet'));
+          sendRegisterForm: (data) => {
+            dispatch(loadRegisterForm(data));
+          },
+          onUsernameChange: (data) => {
+            dispatch(usernameChange(data));
+          },
+          onPassword1Change: (data) => {
+            dispatch(password1Change(data));
+          },
+          onPassword2Change: (data) => {
+            dispatch(password2Change(data));
           }
         }
         ))(Register);

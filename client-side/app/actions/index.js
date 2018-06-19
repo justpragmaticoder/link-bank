@@ -25,6 +25,7 @@ export function loadLinks() {
   };
 }
 export function deleteLink(id) {
+  console.log('deleted' + id);
   return {
     type: 'LINK_DELETE',
     payload: {

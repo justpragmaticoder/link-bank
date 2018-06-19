@@ -114,7 +114,7 @@ h3{
 }
 .add-table{
   transform: scale(2,2);
-  position:fixed;
+  position: fixed!important;
   right:5%;
   bottom: 10%;
   &:hover{

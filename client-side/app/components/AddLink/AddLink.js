@@ -92,7 +92,6 @@ class AddLink extends React.PureComponent {
 };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <div className="addlink">
@@ -109,25 +108,25 @@ class AddLink extends React.PureComponent {
         >
         <Form id="someForm" onSubmit={this.handleSubmit} className="newLink-form">
          <FormItem>
-           <Input 
-           prefix={<Icon type="table" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+           <Input
+           prefix={<Icon type="table" style={{ color: 'rgba(0,0,0,.25)' }} />}
            placeholder="Table"
            name="table"
            id="table"
            />
           </FormItem>
           <FormItem>
-            <Input 
-            prefix={<Icon type="star-o" style={{ color: 'rgba(0,0,0,.25)' }} />} 
-            placeholder="Name" 
+            <Input
+            prefix={<Icon type="star-o" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="Name"
             name="linkName"
             id="linkName"
             />
           </FormItem>
           <FormItem>
-            <Input 
-            prefix={<Icon type="link"  style={{ color: 'rgba(0,0,0,.25)' }} />}  
-            placeholder="URL" 
+            <Input
+            prefix={<Icon type="link"  style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="URL"
             name="url"
             id="url"
             />
