@@ -69,7 +69,7 @@ router.post('/login', (req, res) => {
                 only personalized value that goes into our token */
                 let payload = {id: userEntry.id};
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                res.json({message: "ok", token: token, ...payload, login: login});
+                res.json({message: "ok", token: token, login: login, ...payload});
                 return;
             }
             res.status(401).json({message: "passwords did not match"});

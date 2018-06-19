@@ -1,8 +1,9 @@
 /* eslint-disable consistent-return,no-undef */
 import { connect } from 'react-redux';
 import AddLink from 'components/AddLink/AddLink.js';
+import EditLink from 'components/EditLink/EditLink.js';
+import  Header from 'components/Header/Header';
 import {loadTables, loadLinks, resizeTable, positionTable, deleteLink, deleteTable, update} from 'actions/index.js';
-//import { Container, Draggable } from "react-smooth-dnd";
 import Rnd from 'react-rnd';
 import React from 'react';
 import './style.scss';
@@ -41,6 +42,7 @@ class Tables extends React.PureComponent {
     this.props.positionTable(i.left - 10, i.top - 10, id);
   };
 delElem(id){
+  console.log(id);
   if(id.target.getAttribute('data-elem') == 'link') {
 
     this.props.deleteLink(id.target.getAttribute('data-del'));
@@ -55,11 +57,11 @@ delElem(id){
         return item.tableID === number
       });
 
-  return <ul>{arr.map((item, i) => <li ><a key={i} href={item.url}>{item.text}</a><i data-edit={item.id} onClick={this.editLink}>edit</i>
-    <i className="material-icons delete-button" data-elem ="link" data-del={item.linkID} onClick={this.delElem}>delete</i></li>)}</ul>
+  return <ul>{arr.map((item, i) => <li ><a key={i} href={item.url}>{item.text}</a> <EditLink title="somethings"/>
+  <button ><i data-elem ="link" data-del={item.linkID} onClick={this.delElem} className="material-icons delete-button" >delete</i></button></li>)}</ul>
 }
 editLink(){
-
+    return <AddLink/>
 }
   rendTabs(props) {
     if (this.props.tables.tables.length !== 0) {
@@ -90,7 +92,7 @@ editLink(){
         ><li data-id={number.id} data-pos={i}/*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
            <h3  > <span>{number.name}</span>
            <div className="top-container">
-            <i className="material-icons" data-elem="table" data-del={number.id} onClick={this.delElem}>clear</i>
+           <button onClick={this.delElem}> <i className="material-icons" data-elem="table" data-del={number.id} >clear</i></button>
             </div></h3>
             {this.arrLink(number.id)}
           </li>
@@ -106,7 +108,6 @@ editLink(){
   render() {
     return (
      <div>
-       <AddLink title={'Create link'}/>
        {this.rendTabs(this.props)}
        <Button type="primary" shape="circle" size={'large'} className="add-table">
        +

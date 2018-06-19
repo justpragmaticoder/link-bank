@@ -9,7 +9,11 @@ class Header extends React.Component {
   }
 
   getUserName() {
-    return this.props.userId.login;
+    if(this.props.userId.userId.login !== '') {
+      return this.props.userId.userId.login;
+    }else{
+      return <p>User</p>
+    }
   }
 
   render() {
@@ -21,7 +25,7 @@ class Header extends React.Component {
       right: 0,
       margin: '20px 20px 10px 10px'
     };
-
+  console.log(this.props);
     return (
       <div style={mainDivStyle}>
         <div style={{marginBottom: '5px'}}>Username: {this.getUserName}</div>
@@ -33,8 +37,7 @@ class Header extends React.Component {
 
 export default connect(
   (state) => ({
-    userId: state.get('userId').toJS(),
-
+    userId: state.get('login').toJS()
   }),
   (dispatch) => ({
       makeLogout: () => {

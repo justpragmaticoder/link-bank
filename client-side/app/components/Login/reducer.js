@@ -4,18 +4,16 @@ const initialState = fromJS({
   userId: {
     message: "",
     token: "",
+    login: "",
     id: "",
-    login: ""
+
   }
 });
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {
-    case 'LOGIN_FORMS_LOAD':
-      console.log(action.payload.data);
-      return state.set('data', action.payload.data);
     case 'LOGIN_FORMS_LOAD_SUCCESS':
-      // console.log(action.payload.data.id);
+       console.log(action.payload.data);
       // data.id = action.payload.data.id
       localStorage.setItem("userId", action.payload.data.id);
       localStorage.setItem("token", action.payload.data.token);
