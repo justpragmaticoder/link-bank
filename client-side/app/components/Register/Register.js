@@ -6,9 +6,19 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 
 // import { Button } from 'antd';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 const FormItem = Form.Item;
 
+const success = (data, func,param) => {
+  message.success(data,5)
+  .then(()=>{
+    func(param);
+  })
+};
+
+const error = (data) => {
+  message.error(data);
+};
 class Register extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +30,9 @@ class Register extends React.Component {
             login: this.props.register.regUsername,
             password: this.props.register.regPassword1
           });
+          success('Register is Ok',this.props.history.push,'/login');
+          // this.props.history.push('/');
+
           console.log(this.props.sendRegisterForm);
       }
       handleUsernameChange(event){

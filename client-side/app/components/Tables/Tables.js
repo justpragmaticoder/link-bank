@@ -90,6 +90,7 @@ editLink(){
         ><li data-id={number.id} data-pos={i}/*style={{width: number.width, height: number.height,}}*/ key={number.id}  className="my-table">
            <h3  > <span>{number.name}</span>
            <div className="top-container">
+           <AddLink title={'Create link'}/>
             <i className="material-icons" data-elem="table" data-del={number.id} onClick={this.delElem}>clear</i>
             </div></h3>
             {this.arrLink(number.id)}
@@ -106,7 +107,6 @@ editLink(){
   render() {
     return (
      <div>
-       <AddLink title={'Create link'}/>
        {this.rendTabs(this.props)}
        <Button type="primary" shape="circle" size={'large'} className="add-table">
        +
